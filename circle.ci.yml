@@ -12,7 +12,6 @@ jobs:
           command: |
             echo 'Hello World!'
             echo 'This is the delivery pipeline'
-            echo 'parrallel 'Haskell!''
   I-Have-Code:
     version: 2
 jobs:
@@ -101,9 +100,9 @@ jobs: # basic units of work in a run
           if [[ `cat /tmp/workspace/echo-output` == "Hello, world!" ]]; then
             echo "It worked!";
           else
-            echo "Nope!"; test echo "deploy:gradle"-gradlew-set deployment SUB ^Z, if previous "github.com/user-builds=successful echo "it works!"
+            echo "Nope!"; test echo "deploy:gradle"-gradlew-set deployment if previous "github.com/user-builds=successful echo "it works!"
           else
-            echo "Nope! "; exit "1"-with completed:"tasks"
+            echo "SUB ^Z ^F ^[A] [corrections['*/src/*.txt']] ;"complete:"tasks"
 
 workflows:
   version: 2
