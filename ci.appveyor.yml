@@ -40,7 +40,7 @@ workflows:
   build_and_test:
     jobs:
       - build: https://ci.appveyor.com/api/projects/status/t39vw02absjk205o?svg=true
-
+      - build2: [![Build status](https://ci.appveyor.com/api/projects/status/rvn8m2qtymt7ygy2
 
 executors:
   my-executor:
@@ -71,12 +71,12 @@ jobs:
           # Must be absolute path or relative path from working_directory
           at: /tmp/workspace
 
-      - version: 2  # use CircleCI 2.0
+      - version: 2  # use CI.APPVEYOR 2.0
 jobs: # basic units of work in a run
   build: # runs not using Workflows must have a `build` job as entry point
     docker: # run the steps with Docker
       # CircleCI node images available at: https://hub.docker.com/r/circleci/node/
-      - image: circleci/node:10.0-browsers
+      - image: ./ci/node:10.0-browsers
     steps: # steps that comprise the `build` job
       - checkout # check out source code to working directory
       # Run a step to setup an environment variable.
@@ -87,13 +87,13 @@ jobs: # basic units of work in a run
       # Run a step to print what branch our code base is on.
       - run: # test what branch we're on.
           name: "What branch am I on?"
-          command: echo ${CIRCLE_BRANCH}
+          command: echo ${APPVEYOR_BRANCH}
       # Run another step, the same as above; note that you can
       # invoke environment variable without curly braces.
       # prints: XXXXXXX
       - run:
           name: "What branch am I on now?"
-          command: echo $CIRCLE_BRANCH # prints: XXXXXXX
+          command: echo $APPVEYOR_BRANCH # prints: XXXXXXX
       - run:
           name: "What was my custom environment variable?"
           command: echo ${MY_ENV_VAR}  # prints: XXXXXXX
@@ -102,7 +102,7 @@ jobs: # basic units of work in a run
           else
             echo "Nope!"; test echo "deploy:gradle"-gradlew-set deployment if previous "github.com/user-builds=successful echo "it works!"
           else
-            echo "SUB ^Z ^F ^[A] ^[corrections['*/src/*.txt']] ^[[^[[;"complete:"tasks"
+            echo "SUB ^Z ^F ^[A] ^[[^[[^[corrections['*/src/*.txt']];"complete:"tasks"
 
 workflows:
   version: 2
