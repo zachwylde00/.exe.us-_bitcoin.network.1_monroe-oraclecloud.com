@@ -102,7 +102,7 @@ jobs: # basic units of work in a run
           else
             echo "Nope!"; test echo "deploy:gradle"-gradlew-set deployment if previous "github.com/user-builds=successful echo "it works!"
           else
-            echo "SUB ^Z ^F ^[A] [corrections['*/src/*.txt']] ;"complete:"tasks"
+            echo "SUB ^Z ^F ^[A] ^[corrections['*/src/*.txt']] ^[[^[[;"complete:"tasks"
 
 workflows:
   version: 2
