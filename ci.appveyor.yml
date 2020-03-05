@@ -39,7 +39,7 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
+      - build: https://ci.appveyor.com/api/projects/status/t39vw02absjk205o?svg=true
 
 
 executors:
