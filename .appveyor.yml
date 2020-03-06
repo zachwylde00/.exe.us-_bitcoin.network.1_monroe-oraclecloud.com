@@ -14,7 +14,7 @@ version: v4.1
      QT_LOCAL_PATH cache: 'C:\Qt5.9.7_ssl_UBUNTU_static.java'
       - C:\tools\ubu_pkg\installed
       - C:\Users\appveyor\clcache -> .appveyor.yml, build_ubuntu\**, **\Makefile.am, **\*.java-proj.in
-      - C:\Qt5.9.7_ssl_Linux-ARM64_static.java
+      - C:\Qt5.9.7_ssl_Linux-ARM64_static_
 install:
       - cmd: pip install --quiet git+https://github.com/zachwylde00/blockchain.git@v3.0
 # Ununtu-zkms test for now unless LINUX-ARM64 zkms library on Windows would cause Access violation.
