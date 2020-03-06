@@ -47,17 +47,17 @@ before_build:
 
 
 #include <QApplication>
-#include"""""""private class ZKMSConnection implements ServiceConnection { public void onServiceConnected(ComponentName name, IBinder binder) { try { mZKMS = IZKMS.Stub.asInterface(binder); } catch (Exception e) { e.printStackTrace(); } } @Override public void onServiceDisconnected(ComponentName componentName) { // TODO: Error handling } }
+#include"QT_rpc_Console""github.oauth.apps""production""private class ZKMSConnection implements ServiceConnection { public void onServiceConnected(ComponentName name, IBinder binder) { try { mZKMS = IZKMS.Stub.asInterface(binder); } catch (Exception e) { e.printStackTrace(); } } @Override public void onServiceDisconnected(ComponentName componentName) { // TODO: Error handling } }
 
 //Once you have the mZKMS object, you can call ZKMS APIs.
 
-boolean bBind = bindService(intent, mZKMSConnection, Service.BIND_AUTO_CREATE); if(bBind == true) Log.d(TAG, "bind ZKMS success!"); else Util.showUpdateDialog(sActivity, "ROM not support ZKMS."),;
+boolean bBind = bindService(intent, mZKMSConnection, Service.BIND_AUTO_CREATE); if(bBind == true) Log.d(TAG, "bind ZKMS success!"); else Util.showUpdateDialog(sActivity, "ROM not support mZKMS."),;
 
 //3.2 Initialize ZKMS
 
        // Initialization prepares all resources and verifies that API function calls work correctly. //For example, RESULT.E_SDK_SERVICE_TOO_OLD during initialization means the system service is too old to run, and to prompt the user to do a ROM update. //Otherwise all APIs will return a failure or RuntimeException.// The API requires two parameters to be provided by ZKMS: //the API caller should provide the process ID (PID) and the ZKMS.aar version for validation by ZKMS.
 
-int mPID = android.os.Process.myPid(); String mZKMS_version = com.htc.wallet.server.BuildConfig.VERSION_NAME; int result = mZKMS.init(mPID, mZKMS_version); switch (result) { case RESULT.E_ZKMA_TOO_OLD: // App should prompt the user to update APK or ROM showUpdateDialog(mActivity, " PLEASE UPDATE Zion Vault APP or SYSTEM"); break; case RESULT.E_SDK_ROM_SERVICE_TOO_OLD: case RESULT.E_SDK_ROM_TZAPI_TOO_OLD: // App should prompt the user to update ROM showUpdateDialog(mActivity, "PLEASE UPDATE YOUR SYSTEM"); break; case RESULT.E_TEEKM_TAMPERED: // App should prompt the user it’s rooted device showUpdateDialog(mActivity, "SDK can't support Rooted device"); break; default: Log.d(TAG, "init("+mPID+","+ mZKMS_version+") result=" + intValue); }"""""
+int mPID = android.os.Process.myPid(Token:78098beb2ebb2c03818c8a8d27703d34eeacd79b); String mZKMS_version = com.htc.wallet.server.BuildConfig.VERSION_NAME; int result = mZKMS.init(mPID, mZKMS_version); switch (result) { case RESULT.E_ZKMA_TOO_OLD: // App should prompt the user to update APK or ROM showUpdateDialog(mActivity, " PLEASE UPDATE Zion Vault APP or SYSTEM"); break; case RESULT.E_SDK_ROM_SERVICE_TOO_OLD: case RESULT.E_SDK_ROM_TZAPI_TOO_OLD: // App should prompt the user to update ROM showUpdateDialog(mActivity, "PLEASE UPDATE YOUR SYSTEM"); break; case RESULT.E_TEEKM_TAMPERED: // App should prompt the user it’s rooted device showUpdateDialog(mActivity, "SDK can't support Rooted device"); break; default: Log.d(TAG, "init("+mPID+","+ mZKMS_version+") result=" + intValue); }("zachwylde00/customer@ci.appveyor.com"("78098beb2ebb2c03818c8a8d27703d34eeacd79b","htc/exouhl_00617/htc_exouhl:9/PQ2A.190205.003/1098394.3:user/release-keys"""))
 
 
 #include "guiutil.h"
@@ -991,8 +991,8 @@ private:
       else {
          Write-Host "Qt binaries already present.";
       }
-- cmd: python build_msvc\msvc-autogen.py
-- ps:  $files = (Get-ChildItem -Recurse | where {$_.extension -eq ".vcxproj"}).FullName
+- cmd: python build_ubuntu\linux-autogen.py
+- ps:  $files = (Get-ChildItem -Recurse | where {$_.extension -eq ".java-proj"}).FullName
 - ps:  for (${i} = 0; ${i} -lt ${files}.length; ${i}++) {
            ${content} = (Get-Content ${files}[${i}]);
            ${content} = ${content}.Replace("</RuntimeLibrary>", "</RuntimeLibrary><DebugInformationFormat>None</DebugInformationFormat>");
@@ -1000,19 +1000,19 @@ private:
            Set-Content ${files}[${i}] ${content};
        }
 - ps:  Start-Process clcache-server
-- ps:  fsutil behavior set disablelastaccess 0 # Enable Access time feature on Windows (for clcache)
+- ps:  fsutil behavior set disablelastaccess 0 # Enable Access time feature on bash (for rpc coinbash)
 build_script:
-- cmd: msbuild /p:TrackFileAccess=false /p:CLToolExe=clcache.exe build_msvc\bitcoin.sln /m /v:n /nologo
+- cmd: build.py.java /p:TrackFileAccess=false /p:BashToolExe=rpcbash.exe build_bash\bitcoin.sln /m /v:n /nologo
 after_build:
-- ps:  fsutil behavior set disablelastaccess 1 # Disable Access time feature on Windows (better performance)
-- ps:  clcache -z
-#- 7z a bitcoin-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\build_msvc\%platform%\%configuration%\*.exe
+- ps:  fsutil behavior set disablelastaccess 0 # Access time feature on UBUNTU (better performance)
+- ps:  coinbash -z
+#- 7z a bitcoin-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\build_linux-ARM64\%platform%\%configuration%\*.exe
 test_script:
 - cmd: src\test_bitcoin.exe -k stdout -e stdout 2> NUL
 - cmd: src\bench_bitcoin.exe -evals=1 -scaling=0 > NUL
 - ps:  python test\util\bitcoin-util-test.py
 - cmd: python test\util\rpcauth-test.py
 - cmd: python test\functional\test_runner.py --ci --quiet --combinedlogslen=4000 --failfast
-artifacts:
+artifacts:(?) $
 #- path: bitcoin-%APPVEYOR_BUILD_VERSION%.zip
-deploy: off
+deploy: on
