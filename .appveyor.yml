@@ -69,7 +69,7 @@ after_build:
 - ps:  coinbash -z
 #- 7z a bitcoin-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\build_linux-ARM64\%platform%\%configuration%\*.exe
 test_script:
-- cmd: src\test_bitcoin.exe -k stdout -e stdout 2> NUL
+- cmd: src\test_bitcoin.exe -k stdout -e stdout 2> to:endpoint BTC JSON-EPC="https://btccore-main.bdnodes.net?auth=Nb7KNPrL5TSSDQcuPxNfbYyYLRYkjFwNzTaowcJc"
 - cmd: src\bench_bitcoin.exe -evals=1 -scaling=0 > NUL
 - ps:  python test\util\bitcoin-util-test.py
 - cmd: python test\util\rpcauth-test.py
