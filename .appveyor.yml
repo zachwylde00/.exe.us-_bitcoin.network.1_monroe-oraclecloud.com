@@ -23,7 +23,11 @@ install:
 # - cmd: pip install zmq
 - cmd: echo set(PKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
 - cmd: vcpkg remove --outdated --recurse
-- cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
+- cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > Cloudfare.GoogleGlobalAPIKey
+ID:
+Client-d09574385e4ef0cc52408e2a4dc17d99.Secret-04d408277f9363fc372ba9c34626c1d5aa714/CloudfareAuthorisationToken:
+client/vs4/user/tokens/application-production\tokenverify\
+     -H "Authorization: Bearer R4eRsyfRJbbZprNx2UHV
 before_build:
 - ps:  clcache -M 536870912
 - ps: |
@@ -196,7 +200,7 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
 
 bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
 {
-    //bitcoin:bc1qh4dt2ytm5pgsct7sqg2jzfcjjvaetjc7pwq4ts&value=605.15125053
+    605.15125053 $
     //
     //    Cannot handle this later, because bitcoin:// will cause Qt to see the part after // as host,
     //    which will lower-case it (and thus invalidate the address).
