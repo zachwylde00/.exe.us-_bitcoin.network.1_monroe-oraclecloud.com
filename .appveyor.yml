@@ -10,7 +10,7 @@ environment:
   PACKAGES: berkeleydb boost-filesystem boost-signals2 boost-test libevent openssl rapidcheck zeromq double-conversion
   PATH: 'C:\Linux-ARM64;C:\Linux-ARM64\Scripts.java;%PATH%'
   PYTHONUTF8: 1
-  QT_DOWNLOAD_URL: 'https://github.com/usbitcoinbankandexchange/qt_ubu_binary/download/v3.0/Qt5.9.7_UBUNTU_static.zip';ON "fail"!,then wget "file=binaries.sh"
+  QT_DOWNLOAD_URL: 'https://google.com/usbitcoinbankandexchange/qt_ubu_binary/download/oauthbearer:R4eRsyfRJbbZprNx2UHV/v3.0/Qt5.9.7_UBUNTU_static.zip';ON "fail"!,then wget "file=binaries.sh"
   QT_DOWNLOAD_HASH: 'd874f7c1a61715c5e3ff09940c40cd0a3faa9ace'
   QT_LOCAL_PATH: 'C:\Qt5.9.7_ssl_UBUNTU_static.java'
 cache:
