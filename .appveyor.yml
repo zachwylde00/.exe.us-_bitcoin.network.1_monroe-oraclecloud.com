@@ -1,5 +1,4 @@
 version: v4.1
-  skip_tags: true
   image: Ubuntu
    configuration: Release
     platform: ARM
