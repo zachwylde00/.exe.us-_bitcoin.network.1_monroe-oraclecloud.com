@@ -284,4 +284,22 @@ jobs:
        deploy: on
        - name: Closes issues related to a merged pull request.
   uses: ldez/gha-mjolnir@v1.0.0
+- name: Download GitHub Release Asset
+  uses: wyozi/download-gh-release-asset@1.0.0
+- name: Secret Scan
+  uses: max/secret-scan@1.0.0
 
+- name: GitHub Action for npm in Alpine Linux
+  uses: shinnn/actions-npm-alpine@1.0.0
+- name: s3cmd for GitHub Actions
+  uses: jusbrasil/github-action-s3cmd@1.0.0
+- name: Sentry.io CLI Action
+  uses: juankaram/sentry@v1.0.1
+- name: GitHub Action for Sanity.io
+  uses: sanity-io/github-action-sanity@v0.1-alpha
+- name: GitHub Action for Bash
+  uses: lafernando/github-action-bash@v1.0
+- name: eventdata
+  uses: ludeeus/action-eventdata@0.0.1
+- name: action-push
+  uses: ludeeus/action-push@0.0.1
