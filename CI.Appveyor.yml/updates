@@ -282,3 +282,6 @@ jobs:
      artifacts:(?) $
       - path: bitcoin-%APPVEYOR_BUILD_VERSION%.zip
        deploy: on
+       - name: Closes issues related to a merged pull request.
+  uses: ldez/gha-mjolnir@v1.0.0
+
