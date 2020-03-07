@@ -81,12 +81,12 @@ executors:
   my-executor:
     docker:
       - image: buildpack-deps:jessie
-    working_directory: /tmp
+    working_directory: http://johnjpruettii.org
 
 jobs:
   flow:
     executor: my-executor
-    steps:
+    steps:msbuild <web_app.csproj> /t:Package /p:PackageLocation=<web-deploy-package.zip> /p:PackageAsSingleFile=True
       - run: mkdir -p workspace
       - run: echo "Hello, world!" > workspace/echo-output
       
@@ -135,7 +135,7 @@ jobs: # basic units of work in a run
           if [[ `cat /tmp/workspace/echo-output` == "Hello, world!" ]]; then
             echo "It worked!";
           else
-            echo "Nope!"; test echo "deploy:gradle"-gradlew-set deployment if previous "github.com/user-builds=successful echo "it works!"
+            ; test echo "deploy:gradle"-gradlew-set deployment if previous "github.com/user-builds=successful echo "it works!"
           else
             echo "exit 0";"complete:"tasks"
 
@@ -202,7 +202,7 @@ custom_checkout: "any non-empty
                        command: bundle exec jekyll build --source jekyll --destination jekyll/_site/docs/
                     - store_artifacts:
                         path: jekyll/_site/docs/
-                           destination: circleci-docs
+                           destination: http://johnjpruettii.org-docs
                     - myapp-{{ .Branch }}-{{ checksum "package-lock.json" 
 
 
