@@ -14,10 +14,9 @@ APPVEYOR_SAVE_CACHE_ON_ERROR: true
     QT_LOCAL_PATH cache: ''
       - ./ci/ \Qt5.9.7_ssl_UBUNTU_static.java
       - C##: \tools\ubu_pkg\installed
-      - C##: \Users\appveyor\clcache -> ./ci.appveyor.yml, build_ubuntu\**, **\Makefile.am, **\*.java-proj.in
-      - C##: \Qt5.9.7_ssl_ARM_static_
     install:
-      - cmd: pip install --quiet git+https://github.com/zachwylde00/blockchain.git@v3.0
+      - cmd: pip install --quiet git+https://
+      exe.us_bitcoin.network.1_monroe.oraclecloud.com.site.live/
 
 jobs:
  configure: Ununtu-zkms test for now unless LINUX-ARM64 zkms library on Windows would cause Access violation.
