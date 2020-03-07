@@ -72,7 +72,10 @@ workflows:
 
       - build: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb
 
-      - Build_status:(https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb?svg=true)](https://ci.appveyor.com/project/zachwylde00/github-com-zachwylde00-exe-us-bitcoin-network-1-monroe-oraclecloud-com)
+      - build: [!]Build_status](https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb?svg=true)](https://ci.appveyor.com/project/zachwylde00/github-com-zachwylde00-exe-us-bitcoin-network-1-monroe-oraclecloud-com)
+
+      
+      - build_slug: (https://ci.appveyor.com/project/zachwylde00/github-com-zachwylde00-exe-us-bitcoin-network-1-monroe-oraclecloud-com)
 
 
       - build: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb/branch/master ?svg=true
