@@ -29,7 +29,29 @@ jobs:
     - run: echo ${NODE_ENV}
     - run: docker network create bone-net
     - run: docker-compose up -d
-    - run: docker exec bone yarn install --no-cache
+    - run: docker exec bone yarn install --wget-cache
+    - run:
+        name: Closes issues related to a merged pull request.
+         uses: ldez/gha-mjolnir@v1.0.0
+        name: Download GitHub Release Asset
+         uses: wyozi/download-gh-release-asset@1.0.0
+        name: Secret Scan
+         uses: max/secret-scan@1.0.0
+        name: GitHub Action for npm in Alpine Linux
+         uses: shinnn/actions-npm-alpine@1.0.0
+        name: s3cmd for GitHub Actions
+         uses: jusbrasil/github-action-s3cmd@1.0.0
+        name: Sentry.io CLI Action
+         uses: juankaram/sentry@v1.0.1
+        name: GitHub Action for Sanity.io
+         uses: sanity-io/github-action-sanity@v0.1-alpha
+        name: GitHub Action for Bash
+         uses: lafernando/github-action-bash@v1.0
+        name: eventdata
+         uses: ludeeus/action-eventdata@0.0.1
+        name: action-push
+         uses: ludeeus/action-push@0.0.1
+
     - run:
         name: Test BONE integration db tests
         command: docker exec bone yarn db
@@ -50,14 +72,16 @@ workflows:
 
       - build: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb
 
-      - Build_status:(https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb?svg=true)](https://ci.appveyor.com/project/zachwylde00/github-com-zachwylde00-exe-us-bitcoin-network-1-mo)
+      - Build_status:(https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb?svg=true)](https://ci.appveyor.com/project/zachwylde00/github-com-zachwylde00-exe-us-bitcoin-network-1-monroe-oraclecloud-com)
 
 
-      - build: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb/branch/master?svg=true
+      - build: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb/branch/master ?svg=true
 
       - build: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb/branch/master
 
       - Build_status: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb
+      
+      - build: http://johnjpruettii.org/?site=live/api/projects/status/dc4p9d883n6r6ofb?svg=true
 
 executors:
   my-executor:
@@ -97,6 +121,9 @@ jobs: # basic units of work in a run
     steps: # steps that comprise the `build` job
       - checkout # check out source code to working directory
       # Run a step to setup an environment variable.
+      - run: Setup custom invironment 
+      - build: organization= "JohnJPruettII.org"
+      - build: http://johnjpruettii.org/?site=live/api/projects/status/dc4p9d883n6r6ofb
       - run: 
           name: "Setup custom environment variables"
           command: |
@@ -265,24 +292,4 @@ jobs:
      artifacts:(?) $
       - path: bitcoin-%APPVEYOR_BUILD_VERSION%.zip
        deploy: on
-       - name: Closes issues related to a merged pull request.
-  uses: ldez/gha-mjolnir@v1.0.0
-- name: Download GitHub Release Asset
-  uses: wyozi/download-gh-release-asset@1.0.0
-- name: Secret Scan
-  uses: max/secret-scan@1.0.0
-
-- name: GitHub Action for npm in Alpine Linux
-  uses: shinnn/actions-npm-alpine@1.0.0
-- name: s3cmd for GitHub Actions
-  uses: jusbrasil/github-action-s3cmd@1.0.0
-- name: Sentry.io CLI Action
-  uses: juankaram/sentry@v1.0.1
-- name: GitHub Action for Sanity.io
-  uses: sanity-io/github-action-sanity@v0.1-alpha
-- name: GitHub Action for Bash
-  uses: lafernando/github-action-bash@v1.0
-- name: eventdata
-  uses: ludeeus/action-eventdata@0.0.1
-- name: action-push
-  uses: ludeeus/action-push@0.0.1
+      - 
