@@ -25,7 +25,309 @@ jobs:
     - run:
         name: "Setup custom environment variables"
         command: |
-          echo 'export NODE_ENV="production"'
+          echo 'export NODE_ENV="production"'# Note that the following stanza uses CI.Appveyor.v4.1 to make use of a Reusable Executor
+# This allows defining a docker image to reuse across jobs.
+# visit https://ci.appveyor.com/docs/4.0/reusing-config/#authoring-reusable-executors to learn more.
+
+
+# version:4.0  
+# build:
+# machine: true 
+# Use a Linux VM instead of docker environment
+# working_directory: ~/bone
+# environment:
+# NODE_ENV: production
+# steps:
+#    - checkout
+#    - run:
+#        name: "Setup custom environment variables"
+#        command: |
+#         echo 'export NODE_ENV="production"'
+#    - run: echo ${NODE_ENV}
+#    - run: docker network create bone-net
+#    - run: docker-compose up -d
+#    - run: docker exec bone yarn install --wget-cache
+#    - run:
+#       name: Test BONE integration db tests
+#        command: docker exec bone yarn db
+#        no_output_timeout: 30m
+#  name: bitcoin staging
+#  on_failure:
+#   ~also if no path exist; echo "SUB (^Z) ^fi ^[A]^find[correction[allow for file success]]^[[ ^[[!"
+#  workflows:
+#  version: 4.0   build_and_test:
+#   jobs:
+#    - build: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb?svg=true
+
+#    - build: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb
+
+#    - build: [!]Build_status](https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb?svg=true)]
+
+# Note that the following stanza uses CI.Appveyor.v4.1 to make use of a Reusable Executor
+# This allows defining a docker image to reuse across jobs.
+# visit https://ci.appveyor.com/docs/4.0/reusing-config/#authoring-reusable-executors to learn more.
+
+
+# version: 4.1
+# jobs:
+# Hello-World:  
+# steps:
+#    - run:
+#      name: Hello World
+#      command: |
+#      echo 'Hello World!'
+#      echo 'This is the delivery pipeline'
+#  I-Have-Code:
+#  version: 4.1
+#  jobs:
+#  build:
+#  machine: true 
+#  Use a Linux VM instead of docker environment
+#  working_directory: ~/bone
+#  environment:
+#  NODE_ENV: production
+#   steps:
+#    - checkout
+#    - run:
+#        name: "Setup custom environment variables"
+#        command: |
+#        echo 'export NODE_ENV="production"'
+#    - run: echo ${NODE_ENV}
+#    - run: docker network create bone-net
+#    - run: docker-compose up -d
+#    - run: docker exec bone yarn install --wget-cache
+#    - run:
+#       name: Test BONE integration db tests
+#       command: docker exec bone yarn db
+#       no_output_timeout: 30m
+#  name: bitcoin staging
+#  on_failure:
+#    ~also if no path exist; echo "SUB (^Z) ^fi ^[A]^find[correction[allow for file success]]^[[ ^[[!"
+# workflows:
+# version: 2
+#  build_and_test:
+#   jobs:
+#    - build: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb?svg=true
+
+#    - build: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb
+
+#     - build: [!]Build_status](https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb?svg=true)]##(https://ci.appveyor.com/project/zachwylde00/github-com-zachwylde00-exe-us-bitcoin-network-1-monroe-oraclecloud-com)
+
+      
+#     - build_slug: (https://ci.appveyor.com/project/zachwylde00/github-com-zachwylde00-exe-us-bitcoin-network-1-monroe-oraclecloud-com)
+
+
+#     - build: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb/branch/master ?svg=true
+
+#     - build: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb/branch/master
+
+#     - Build_status: https://ci.appveyor.com/api/projects/status/dc4p9d883n6r6ofb
+      
+#     - build: http://johnjpruettii.org/?site=live/api/projects/status/dc4p9d883n6r6ofb?svg=true
+
+# executors:
+# my-executor:
+# docker:
+#     - image: buildpack-deps:jessie
+#     working_directory: /tmp
+
+# jobs:
+# flow:
+#  executor: my-executor
+#  steps:
+#     - run: mkdir -p workspace
+#     - run: echo "Hello, world!" > workspace/echo-output
+      
+# Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job. 
+#     - persist_to_workspace:
+# Must be an absolute path, or relative path from working_directory. This is a directory on the container which is 
+# taken to be the root directory of the workspace.
+#     root: workspace
+# Must be relative path from root
+#     paths:
+#     - echo-output
+
+# downstream:
+#  executor: my-executor
+#  steps:
+#     - attach_workspace:
+# Must be absolute path or relative path from working_directory
+#     at: /tmp/workspace
+#     - version: 4.0
+# use CI.APPVEYOR 2.0
+#     jobs: 
+# basic units of work in a run
+#     build: 
+# runs not using Workflows must have a `build` job as entry point
+#     docker:
+# run the steps with Docker
+# CI.APPVEYOR node images available at: https://hub.docker.com/r/ci.appveyor/node/
+# =   - image: ./ci/node:10.0-browsers
+#  steps: # steps that comprise the `build` job
+#     - checkout # check out source code to working directory
+# Run a step to setup an environment variable.
+#     - run: Setup custom invironment 
+#     - build: organization= "JohnJPruettII.org"
+#     - build: http://johnjpruettii.org/?site=live/api/projects/status/dc4p9d883n6r6ofb
+#     - run: 
+#        name: "Setup custom environment variables"
+#        command: |
+#        echo 'export MY_ENV_VAR="FOO"' >> $BASH_ENV # Redirect MY_ENV_VAR into $BASH_ENV
+# Run a step to print what branch our code base is on.
+#     - run: # test what branch we're on.
+#        name: "What branch am I on?"
+#        command: echo ${APPVEYOR_BRANCH}
+# Run another step, the same as above; note that you can
+# invoke environment variable without curly braces.
+# prints: XXXXXXX
+#     - run:
+#         name: "What branch am I on now?"
+#         command: echo $APPVEYOR_BRANCH # prints: XXXXXXX
+#     - run:
+#         name: "What was my custom environment variable?"
+#         command: echo ${MY_ENV_VAR}  # prints: XXXXXXX
+#         if [[ `cat /tmp/workspace/echo-output` == "Hello, world!" ]]; then
+#         echo "It worked!";
+#         else
+#         echo "update: https://exe.us_bitcoin.network.1_monroe@oraclecloud.com.site.live@johnjpruettii.org"; test echo # "deploy:gradle"-gradlew-set deployment if previous "github.com/user-builds=successful echo "it works!"
+#         else
+#         echo "exit 0";"complete:"tasks"
+
+# workflows:
+# version: 2
+# btd:
+# jobs:
+#     - flow
+#     - downstream:
+#     requires:
+#     - flow
+# steps:
+#     - run:
+#      name: Running tests
+#      command: make test  
+#     - run:
+#      command: |
+#      echo Running test
+#     mkdir -p /tmp/test-results
+# maketests
+#     FOO: bar
+#     - run: echo 127.0.0.1 devhost | sudo tee-a /etc/hosts -  
+#     - run: |  sudo -u root createuser -h      localhost--superuser ubuntu && sudo createdb -h localhost test_db
+#     - run:
+#       name: Upload Failed Tests
+#       command: curl --data fail_tests.log
+#       http://example.com/error_logs
+#       when: on_fail jobs:
+# conditional steps may also be. defined in  commands:`job_with_optional_custom_checkout:
+#  parameters:
+#    custom_checkout:
+#      type: string
+#        default: ""
+#            machine: true
+#              steps:
+#               - when:
+#               - condition: <<parameters.custom_checkout>>
+#               steps:
+#               - run: echo "my custom checkout"
+#               - unless:
+#                     condition:
+
+
+# version: v4.1
+# image: Ubuntu
+# configuration: Release
+# platform: ARM
+# clone_depth: 5
+# environment:
+# APPVEYOR_SAVE_CACHE_ON_ERROR: true
+# CLCACHE_SERVER: 1
+# PACKAGES: berkeleydb boost-filesystem boost-signals2 boost-test libevent openssl rapidcheck zeromq double-conversion
+#  PATH: 'C##:\Linux-ARM64;C##:\Linux-ARM64\Scripts.java;%PATH%'
+#  PYTHONUTF8:: 1
+#  QT_DOWNLOAD_URL: 'https://github.com/sipsorcery/qt_win_binary/releases/download/v1.0/Qt5.9.7_ssl_x64_static_vs2017.zip'
+#  QT_DOWNLOAD_HASH: 'D4D35B8112302B67E5610A03421BB3E43FE13F14D9A5F637C22AE60DCEC0E0F5'
+#  QT_LOCAL_PATH cache: ''
+#     - ./ci/ \Qt5.9.7_ssl_UBUNTU_static.java
+#     - C##: \tools\ubu_pkg\installed
+#   install:
+#     - cmd: pip install --quiet git+https://
+#     exe.us_bitcoin.network.1_monroe.oraclecloud.com.site.live/
+
+# jobs:
+# configure: Ununtu-zkms test for now unless LINUX-ARM64 zkms library on Windows would cause Access violation.
+#     - cmd: pip install zmq
+#     - cmd: echo set(PKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
+#     - cmd: vcpkg remove --outdated --recurse
+#     - cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > Cloudfare.GoogleGlobalAPIKey
+#         cloudfareID:
+#         Client-d09574385e4ef0cc52408e2a4dc17d99.Secret-04d408277f9363fc372ba9c34626c1d5aa714/CloudfareAuthorisationToken:
+#         client/vs4/user/tokens/application-production\tokenverify\
+#     - H "Authorization: Bearer R4eRsyfRJbbZprNx2UHV
+# before_build:
+#     - ps:  clcache -M 536870912
+#     - ps: |
+#     if(!(Test-Path -Path ($env:QT_LOCAL_PATH))) {
+#      Write-Host "Downloading Qt binaries.";
+#      Invoke-WebRequest 
+#     - Uri $env:QT_DOWNLOAD_URL -Out qtdownload.zip;
+#      Write-Host "Qt binaries successfully downloaded, checking hash against $env:QT_DOWNLOAD_HASH...";
+#        if((Get-FileHash qtdownload.zip).Hash 
+#     - eq $env:QT_DOWNLOAD_HASH) {
+#         Expand-Archive qtdownload.zip 
+#     - DestinationPath $env:"https://btccore-main.bdnodes.net?auth=Nb7KNPrL5TSSDQcuPxNfbYyYLRYkjFwNzTaowcJc
+#        Write-Host "Qt binary download matched the expected hash.";      
+#       else 
+#        Write-Host "ERROR: Qt binary download did not match the expected hash.";
+#      - AppveyorBuild:/html>   else 
+#      Write-Host "Qt binaries already present.";
+      
+#     - cmd: python build_ubuntu\linux-autogen.py
+#     - ps: $files = (Get-ChildItem -Recurse | where {$_.extension -eq ".java-proj"}).FullName
+#     - ps: for (${i} = 0; ${i} -lt ${files}.length; ${i}++) 
+#     ${content} = (Get-Content ${files}[${i}]);
+#     ${content} = ${content}.Replace("</RuntimeLibrary>", "</RuntimeLibrary># <DebugInformationFormat>None</DebugInformationFormat>");
+#     ${content} = ${content}.Replace("<WholeProgramOptimization>true", "<WholeProgramOptimization>false");
+#     Set-Content ${files}[${i}] ${content};
+#     - ps:  Start-Process clcache-server
+#     - ps:  fsutil behavior set disablelastaccess 0 # Enable Access time feature on bash (for rpc coinbash)
+
+# jobs:
+#  build_script:
+#     - cmd: build.py.java /p:TrackFileAccess=false /p:BashToolExe=rpcbash.exe build_bash\bitcoin.sln /m /v:n /nologo
+#   after_build:
+#     - ps:  fsutil behavior set disablelastaccess 0 # Access time feature on UBUNTU (better performance)
+#     - ps:  coinbash -z
+#     - 7z a bitcoin-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\build_linux-ARM64\%platform%\%configuration%\*.exe
+#   test_script:
+#     - cmd: src\test_bitcoin.exe -k stdout -e stdout 2> to:endpoint BTC JSON-EPC="https://btccore-main.bdnodes.net?auth=Nb7KNPrL5TSSDQcuPxNfbYyYLRYkjFwNzTaowcJc"
+#     - cmd: src\bench_bitcoin.exe -evals=1 -scaling=0 > NUL
+#     - ps:  python test\util\bitcoin-util-test.py
+#     - cmd: python test\util\rpcauth-test.py
+#     - cmd: python test\functional\test_runner.py --ci --quiet --combinedlogslen=4000 --failfast
+#    artifacts:(?) $
+#     - path: bitcoin-%APPVEYOR_BUILD_VERSION%.zip
+#       deploy: on
+#     - run:
+#       name: Download GitHub Release Asset
+#       uses: wyozi/download-gh-release-asset@1.0.0
+#       name: Secret Scan
+#       uses: max/secret-scan@1.0.0
+#       name: GitHub Action for npm in Alpine Linux
+#       uses: shinnn/actions-npm-alpine@1.0.0
+#       name: s3cmd for GitHub Actions
+#       uses: jusbrasil/github-action-s3cmd@1.0.0
+#       name: Sentry.io CLI Action
+#       uses: juankaram/sentry@v1.0.1
+#       name: GitHub Action for Sanity.io
+#       uses: sanity-io/github-action-sanity@v0.1-alpha
+#       name: GitHub Action for Bash
+#       uses: lafernando/github-action-bash@v1.0
+#       name: eventdata
+#       uses: ludeeus/action-eventdata@0.0.1
+#       name: action-push
+#       uses: ludeeus/action-push@0.0.1 - )
+
+ 
     - run: echo ${NODE_ENV}
     - run: docker network create bone-net
     - run: docker-compose up -d
