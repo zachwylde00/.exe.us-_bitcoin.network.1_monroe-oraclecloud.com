@@ -400,8 +400,18 @@ jobs:
     steps:
       - run: mkdir -p workspace
       - run: echo "Hello, world!" > workspace/echo-output
-      
-      # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job. 
+      - run: echo "test/functional/feature_rbf.py"
+      - run: echo "test/functional/test_runner.py feature_rbf.py"
+        command: ./ci.appveyor/test/functional/test_runner.py <testname1> <testname2> <testname3> ...
+        Wildcard test names can be passed, if the paths are coherent and the test runner is called from a bash shell or similar that does the globbing. For example, to run all the wallet tests_
+        test/functional/test_runner.py test/functional/wallet*_
+functional/test_runner.py functional/wallet_(called from the test/ directory)_
+_test_runner.py wallet* (called from the test/functional/ directory)_
+but not_test/functional/test_runner.py wallet*_
+Combinations of wildcards can be passed_test/functional/test_runner.py ./test/functional/tool* test/functional/mempool*
+test_runner.py tool* mempool*_Run the regression test suite with_"test/functional/test_runner.py"_Run all possible tests with
+_test/functional/test_runner.py --extended_
+        # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job. 
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is 
           # taken to be the root directory of the workspace.
