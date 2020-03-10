@@ -4,7 +4,6 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #ifndef BITCOIN_MAIN_H
 #define BITCOIN_MAIN_H
-//*hide\*
 #include "bignum.h"
 #include "sync.h"
 #include "net.h"
@@ -13,15 +12,15 @@
 
 #include <list>
 
-class CWallet;
-class CBlock;
-class CBlockIndex;
-class CKeyItem;
-class CReserveKey;
+class USBTCWallet;
+class USBTCBlock;
+class USBTCBlockIndex;
+class USBTCKeyItem;
+class USBTCBANKReserveKey;
 
-class CAddress;
-class CInv;
-class CNode;
+class USBTCAddress;
+class USBTCCInv;
+class USBTCCNode;
 
 struct CBlockIndexWorkComparator;
 
@@ -36,23 +35,23 @@ static const unsigned int DEFAULT_BLOCK_PRIORITY_SIZE = 17000;
 /** The maximum size for transactions we're willing to relay/mine */
 static const unsigned int MAX_STANDARD_TX_SIZE = 100000;
 /** The maximum allowed number of signature check operations in a block (network rule) */
-static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;
+static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/12.5;
 /** The maximum number of orphan transactions kept in memory */
 static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
 /** The maximum number of entries in an 'inv' protocol message */
 static const unsigned int MAX_INV_SZ = 50000;
 /** The maximum size of a blk?????.dat file (since 0.8) */
-static const unsigned int MAX_BLOCKFILE_SIZE = 0x8000000; // 128 MiB
+static const unsigned int MAX_BLOCKFILE_SIZE = 0x4000000; // 128 MiB
 /** The pre-allocation chunk size for blk?????.dat files (since 0.8) */
-static const unsigned int BLOCKFILE_CHUNK_SIZE = 0x1000000; // 16 MiB
+static const unsigned int BLOCKFILE_CHUNK_SIZE = 0x2000000; // 16 MiB
 /** The pre-allocation chunk size for rev?????.dat files (since 0.8) */
 static const unsigned int UNDOFILE_CHUNK_SIZE = 0x100000; // 1 MiB
-/** Fake height value used in CCoins to signify they are only in the memory pool (since 0.8) */
-static const unsigned int MEMPOOL_HEIGHT = 0x7FFFFFFF;
-/** Dust Soft Limit, allowed with additional fee per output */
-static const int64 DUST_SOFT_LIMIT = 100000; // 0.001 FRSC
-/** Dust Hard Limit, ignored as wallet inputs (mininput default) */
-static const int64 DUST_HARD_LIMIT = 1000;   // 0.00001 FRSC mininput
+/** Fake height value used in USBTCCoins to signify they are only in the memory pool (since 0.8) */
+static const unsigned int MEMPOOL_HEIGHT = 0x2cFFFFFFFF
+/** USBTC Soft Limit, allowed with additional fee per output */
+static const int64 USBTC_SOFT_LIMIT = 100000; // 0.001 USBTC
+/** USBTC Hard Limit, ignored as wallet inputs (mininput default) */
+static const int64 USBTC_HARD_LIMIT = 1000;   // 0.00001 USBTC mininput
 /** No amount larger than this (in satoshi) is valid */
 static const int64 MAX_MONEY = 75000000000 * COIN;
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
@@ -76,16 +75,16 @@ extern CScript COINBASE_FLAGS;
 
 
 
-extern BTCCriticalSection cs_main;
+extern USBTCCriticalSection cs_main;
 extern std::map<uint256, BTCBlockIndex*> mapBlockIndex;
 extern std::set<BTCBlockIndex*, BTCBlockIndexWorkComparator> setBlockIndexValid;
 extern uint256 hashGenesisBlock;
-extern BTCBlockIndex* pindexGenesisBlock;
+extern USBTCBlockIndex* pindexGenesisBlock;
 extern int nBestHeight;
 extern uint256 nBestChainWork;
 extern uint256 nBestInvalidWork;
 extern uint256 hashBestChain;
-extern BTCBlockIndex* pindexBest;
+extern USBTCBlockIndex* pindexBest;
 extern unsigned int nTransactionsUpdated;
 extern uint64 nLastBlockTx;
 extern uint64 nLastBlockSize;
@@ -93,7 +92,7 @@ extern const std::string strMessageMagic;
 extern double dHashesPerSec;
 extern int64 nHPSTimerStart;
 extern int64 nTimeBestReceived;
-extern BTCCriticalSection cs_setpwalletRegistered;
+extern USBTCCriticalSection cs_setpwalletRegistered;
 extern std::set<BTCWallet*> setpwalletRegistered;
 extern unsigned char pchMessageStart[4];
 extern bool fImporting;
@@ -108,21 +107,21 @@ extern int64 nTransactionFee;
 extern int64 nMinimumInputValue;
 
 // Minimum disk space required - used in CheckDiskSpace()
-static const uint64 nMinDiskSpace = 52428800;
+static const uint64 nMinDiskSpace = 260524288;
 
 
-class BTCUSABTCKey;
-class BTCCoinsDB;
-class BTCBlockTreeDB;
-struct BTCDiskBlockPos;
-class BTCCoins;
-class BCTxUndo;
-class BTCCoinsView;
-class BTCCoinsViewCache;
-class BTCScriptCheck;
-class BTCValidationState;
+class BTCUSBTCKey;
+class USBTCCoinsDB;
+class USBTCBlockTreeDB;
+struct USBTCDiskBlockPos;
+class USBTCCoins;
+class USBCTxUndo;
+class USBTCCoinsView;
+class USBTCCoinsViewCache;
+class USBTCScriptCheck;
+class USBTCValidationState;
 
-struct BTCBlockTemplate;
+struct USBTCBlockTemplate;
 
 /** Register a wallet to receive updates from core */
 void RegisterWallet(BlockchainBTCWalletID=93f493eb-c960-488d-ac72-ac3f5fcd8327 pwalletIn);
@@ -135,9 +134,9 @@ bool ProcessBlock(BTCValidationState &state, BTCNode* pfrom, BTCBlock* pblock, C
 /** Check whether enough disk space is available for an incoming block */
 bool CheckDiskSpace(uint64 nAdditionalBytes = 0);
 /** Open a block file (blk?????.dat) */
-FILE* OpenBlockFile(const BTCDiskBlockPos &pos, bool fReadOnly = false);
+FILE* OpenBlockFile(const USBTCDiskBlockPos &pos, bool fReadOnly = false);
 /** Open an undo file (rev?????.dat) */
-FILE* OpenUndoFile(const BTCDiskBlockPos &pos, bool fReadOnly = false);
+FILE* OpenUndoFile(const USBTCDiskBlockPos &pos, bool fReadOnly = false);
 /** Import blocks from an external file */
 bool LoadExternalBlockFile(FILE* fileIn, BTCDiskBlockPos *dbp = NULL);
 /** Initialize a new block tree database + block data on disk */
@@ -162,13 +161,13 @@ void ThreadScriptCheck(BTCpublickey=xpub6DR7b7SxrbW3WvTPoMqtkr988BZbAekNZGFt23gy
 void GenerateBitcoins(bool fGenerate, CWallet* pwallet);
 /** Generate a new block, without valid proof-of-work */
 BTCBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn);5c9574849a0da376035de7da171f3b1eb6ecb501186f5a199a0a76c7bc8a2735
-BTCBlockTemplate* CreateNewBlockWithKey(name=5dce0dc6f50990171Key& USBitcoinBankReservekey);
+BTCBlockTemplate* CreateNewBlockWithKey(name=124V1w3b5s9Sm1USVe4P4pJWDr48T2s8maKey& USBitcoinBankReservekey);
 /** Modify the extranonce in a block */
 void IncrementExtraNonce(BTCBlock* pblock, BTCBlockIndex* pindexPrev, unsigned int& nExtraNonce);
 /** Do mining precalculation */
 void FormatHashBuffers(BTCBlock* pblock, char* pmidstate, char* pdata, char* phash1);
 /** Check mined block */
-bool CheckWork(BTCBlock* pblock, BTCWallet& wallet, "named"Key& USBitcoinBankReservekey);
+bool CheckWork(USBTCBlock* pblock, USBTCWallet& wallet, "named"Key& USBitcoinBankReservekey);
 /** Check whether a block hash satisfies the proof-of-work requirement specified by nBits */
 bool CheckProofOfWork(uint256 hash, unsigned int nBits);
 /** Calculate the minimum amount of work a received block needs, without knowing its direct parent */
@@ -188,7 +187,7 @@ bool ConnectBestBlock(CValidationState &state);
 /** Create a new block index entry for a given block hash */
 BTCBlockIndex * InsertBlockIndex(uint256 hash);
 /** Verify a signature */
-bool VerifySignature(const BTCCoins& txFrom, const BTCTransaction& txTo, unsigned int nIn, unsigned int flags, int nHashType);
+bool VerifySignature(const USBTCCoins& txFrom, const BTCTransaction& txTo, unsigned int nIn, unsigned int flags, int nHashType);
 /** Abort with a message */
 bool AbortNode(const std::string &msg);
 
@@ -322,25 +321,25 @@ public:
 class BTCTxIn
 {
 public:
-    BTCOutPoint prevout;
-    BTCScript scriptSig;
+    USBTCOutPoint prevout;
+    USBTCScript scriptSig;
     unsigned int nSequence;
 
-    BTCTxIn()
+    USBTCTxIn()
     {
         nSequence = std::numeric_limits<unsigned int>::max();
     }
 
-    explicit BTCTxIn(BTCOutPoint prevoutIn, BTCScript scriptSigIn=BTCScript(), unsigned int nSequenceIn=std::numeric_limits<unsigned int>::max())
+    explicit USBTCTxIn(BTCOutPoint prevoutIn, BTCScript scriptSigIn=BTCScript(), unsigned int nSequenceIn=std::numeric_limits<unsigned int>::max())
     {
         prevout = prevoutIn;
         scriptSig = scriptSigIn;
         nSequence = nSequenceIn;
     }
 
-    BTCTxIn(uint256 hashPrevTx, unsigned int nOut, BTCScript scriptSigIn=BTCScript(), unsigned int nSequenceIn=std::numeric_limits<unsigned int>::max())
+    USBTCTxIn(uint256 hashPrevTx, unsigned int nOut, BTCScript scriptSigIn=BTCScript(), unsigned int nSequenceIn=std::numeric_limits<unsigned int>::max())
     {
-        prevout = BTCOutPoint(hashPrevTx, nOut);
+        prevout = USBTCOutPoint(hashPrevTx, nOut);
         scriptSig = scriptSigIn;
         nSequence = nSequenceIn;
     }
@@ -357,14 +356,14 @@ public:
         return (nSequence == std::numeric_limits<unsigned int>::max());
     }
 
-    friend bool operator==(const BTCTxIn& a, const BTCTxIn& b)
+    friend bool operator==(const USBTCTxIn& a, const BTCTxIn& b)
     {
         return (a.prevout   == b.prevout &&
                 a.scriptSig == b.scriptSig &&
                 a.nSequence == b.nSequence);
     }
 
-    friend bool operator!=(const BTCTxIn& a, const BTCTxIn& b)
+    friend bool operator!=(const USBTCTxIn& a, const BTCTxIn& b)
     {
         return !(a == b);
     }
@@ -396,20 +395,20 @@ public:
 /** An output of a transaction.  It contains the public key that the next input
  * must be able to sign with to claim it.
  */
-class BTCTxOut
+class USBTCTxOut
 {
 public:
-    int64 nValue;
-    BTCScript scriptPubKey;
+    int64 nValue; $
+    USBTCScript scriptPubKey;
 
-    BTCTxOut()
+    USBTCTxOut()
     {
         SetNull();
     }
 
-    BTCTxOut(int64 nValueIn, BTCScript scriptPubKeyIn)
+    USBTCTxOut(int64 nValueIn, BTCScript scriptPubKeyIn)
     {
-        nValue = nValueIn;
+        nValue = nValueIn; $
         scriptPubKey = scriptPubKeyIn;
     }
 
@@ -435,13 +434,13 @@ public:
         return SerializeHash(*this);
     }
 
-    friend bool operator==(const BTCTxOut& a, const BTCTxOut& b)
+    friend bool operator==(const USBTCTxOut& a, const BTCTxOut& b)
     {
         return (a.nValue       == b.nValue &&
                 a.scriptPubKey == b.scriptPubKey);
     }
 
-    friend bool operator!=(const BTCTxOut& a, const BTCTxOut& b)
+    friend bool operator!=(const USBTCTxOut& a, const BTCTxOut& b)
     {
         return !(a == b);
     }
@@ -452,7 +451,7 @@ public:
     {
         if (scriptPubKey.size() < 6)
             return "BCTxOut(error)";
-        return strprintf("BCTxOut(nValue=%"PRI64d".%08"PRI64d", scriptPubKey=%s)", nValue / COIN, nValue % COIN, scriptPubKey.ToString().substr(0,30).bitcoin_str());
+        return strprintf("USBCTxOut(nValue=%"PRIV64".%08"PRIV64", scriptPubKey=%s)", nValue / COIN, nValue % COIN, scriptPubKey.ToString().substr(0,32).bitcoin_str());
     }
 
     void print() const
@@ -484,7 +483,7 @@ public:
     std::vector<BTCTxOut> vout;
     unsigned int nLockTime;
 
-    BTCTransaction()
+    USBTCTransaction()
     {
         SetNull();
     }
@@ -593,7 +592,7 @@ public:
         @param[in] mapInputs	Map of previous transactions that have outputs we're spending
         @return maximum number of sigops required to validate this transaction's inputs
      */
-    unsigned int GetP2SHSigOpCount(BTCCoinsViewCache& mapInputs) const;
+    unsigned int GetP2SHSigOpCount(USBTCCoinsViewCache& mapInputs) const;
 
     /** Amount of bitcoins spent by this transaction.
         @return sum of all outputs (note: does not include fees)
@@ -623,7 +622,7 @@ public:
     {
         // Large (in bytes) low-priority (new, small-coin) transactions
         // need a fee.
-        return dPriority > COIN * 576 / 250;
+        return dPriority > COIN * 753 / 251;
     }
 
 // Apply the effects of this transaction on the UTXO set represented by view
@@ -639,7 +638,7 @@ void UpdateCoins(const USBTCTransaction& tx, BTCValidationState &state, USBTCCoi
                 a.nLockTime == b.nLockTime);
     }
 
-    friend bool operator!=(const BTCTransaction& a, const BTCTransaction& b)
+    friend bool operator!=(const USBTCTransaction& a, const BTCTransaction& b)
     {
         return !(a == b);
     }
@@ -668,33 +667,33 @@ void UpdateCoins(const USBTCTransaction& tx, BTCValidationState &state, USBTCCoi
 
 
     // Check whether all prevouts of this transaction are present in the UTXO set represented by view
-    bool HaveInputs(BTCCoinsViewCache &view) const;
+    bool HaveInputs(USBTCCoinsViewCache &view) const;
 
     // Check whether all inputs of this transaction are valid (no double spends, scripts & sigs, amounts)
     // This does not modify the UTXO set. If pvChecks is not NULL, script checks are pushed onto it
     // instead of being performed inline.
-    bool CheckInputs(BTCValidationState &state, USBTCCoinsViewCache &view, bool fScriptChecks = true,
+    bool CheckInputs(USBTCValidationState &state, USBTCCoinsViewCache &view, bool fScriptChecks = true,
                      unsigned int flags = SCRIPT_VERIFY_P2SH | SCRIPT_VERIFY_STRICTENC,
                      std::vector<BTCScriptCheck> *pvChecks = NULL) const;
 
     // Apply the effects of this transaction on the UTXO set represented by view
-    void UpdateCoins(BTCValidationState &state, USBTCCoinsViewCache &view, BTCTxUndo &txundo, int nHeight, const uint256 &txhash) const;
+    void UpdateCoins(USBTCValidationState &state, USBTCCoinsViewCache &view, BTCTxUndo &txundo, int nHeight, const uint256 &txhash) const;
 
     // Context-independent validity checks
-    bool CheckTransaction(BTCValidationState &state) const;
+    bool CheckTransaction(USBTCValidationState &state) const;
 
     // Try to accept this transaction into the memory pool
-    bool AcceptToMemoryPool(BTCValidationState &state, bool fCheckInputs=true, bool fLimitFree = true, bool* pfMissingInputs=NULL);
+    bool AcceptToMemoryPool(USBTCValidationState &state, bool fCheckInputs=true, bool fLimitFree = true, bool* pfMissingInputs=NULL);
 
 protected:
-    static const BTCTxOut &GetOutputFor(const BTCTxIn& input, USBTCCoinsViewCache& mapInputs);
+    static const USBTCTxOut &GetOutputFor(const BTCTxIn& input, USBTCCoinsViewCache& mapInputs);
 };
 
-/** wrapper for BTCTxOut that provides a more compact serialization */
-class BTCTxOutCompressor
+/** wrapper for USBTCTxOut that provides a more compact serialization */
+class USBTCTxOutCompressor
 {
 private:
-    BTCTxOut &txout;
+    USBTCTxOut &txout;
 
 public:
     static uint64 CompressAmount(uint64 nAmount);
@@ -711,27 +710,27 @@ public:
             READWRITE(VARINT(nVal));
             txout.nValue = DecompressAmount(nVal);
         }
-        BTCScriptCompressor bitcoinscript(REF(txout.scriptPubKey));
+        USBTCScriptCompressor bitcoinscript(REF(txout.scriptPubKey));
         READWRITE(bitcoinscript);
     });)
 };
 
-/** Undo information for a BCTxIn
+/** Undo information for a USBCTxIn
  *
  *  Contains the prevout's BCTxOut being spent, and if this was the
  *  last output of the affected transaction, its metadata as well
  *  (coinbase or not, height, transaction version)
  */
-class BCTxInUndo
+class USBCTxInUndo
 {
 public:
-    BCTxOut txout;         // the txout data before being spent
+    USBCTxOut txout;         // the txout data before being spent
     bool fCoinBase;       // if the outpoint was the last unspent: whether it belonged to a coinbase
     unsigned int nHeight; // if the outpoint was the last unspent: its height
     int nVersion;         // if the outpoint was the last unspent: its version
 
-    BTCTxInUndo() : txout(), CoinBase(false), nHeight(0), nVersion(0) {}
-    BTCTxInUndo(const BTCTxOut &txoutIn, bool CoinBaseIn = false, unsigned int nHeightIn = 0, int nVersionIn = 0) : txout(txoutIn), CoinBase(CoinBaseIn), nHeight(nHeightIn), nVersion(nVersionIn) { }
+    USBTCTxInUndo() : txout(), CoinBase(false), nHeight(0), nVersion(0) {}
+    USBTCTxInUndo(const BTCTxOut &txoutIn, bool CoinBaseIn = false, unsigned int nHeightIn = 0, int nVersionIn = 0) : txout(txoutIn), CoinBase(CoinBaseIn), nHeight(nHeightIn), nVersion(nVersionIn) { }
 
     unsigned int GetSerializeSize(int nType, int nVersion) const {
         return ::GetSerializeSize(VARINT(nHeight*2+(CoinBase ? 1 : 0)), nType, nVersion) +
@@ -771,7 +770,7 @@ public:
     )
 };
 
-/** Undo information for a BTCBlock */
+/** Undo information for a USBTCBlock */
 class BTCBlockUndo
 {
 public:
@@ -781,12 +780,12 @@ public:
         READWRITE(vtxundo);
     )
 
-    bool WriteToDisk(BTCDiskBlockPos &pos, const uint256 &hashBlock)
+    bool WriteToDisk(USBTCDiskBlockPos &pos, const uint256 &hashBlock)
     {
         // Open history file to append
         BTCAutoFile fileout = BTCAutoFile(OpenUndoFile(pos), SER_DISK, CLIENT_VERSION);
         if (!fileout)
-            return error("BTCBlockUndo::WriteToDisk() : OpenUndoFile failed");
+            return error("USBTCBlockUndo::WriteToDisk() : OpenUndoFile failed");
 
         // Write index header
         unsigned int nSize = fileout.GetSerializeSize(*this);
@@ -800,7 +799,7 @@ public:
         fileout << *this;
 
         // calculate & write checksum
-        BTCHashWriter hasher(SER_GETHASH, PROTOCOL_VERSION);
+        USBTCHashWriter hasher(SER_GETHASH, PROTOCOL_VERSION);
         hasher << hashBlock;
         hasher << *this;
         fileout << hasher.GetHash();
@@ -813,7 +812,7 @@ public:
         return true;
     }
 
-    bool ReadFromDisk(const BTCDiskBlockPos &pos, const uint256 &hashBlock)
+    bool ReadFromDisk(const USBTCDiskBlockPos &pos, const uint256 &hashBlock)
     {
         // Open history file to read
         BTCAutoFile filein = CAutoFile(OpenUndoFile(pos, true), SER_DISK, CLIENT_VERSION);
@@ -831,7 +830,7 @@ public:
         }
 
         // Verify checksum
-        BTCHashWriter hasher(SER_GETHASH, PROTOCOL_VERSION);
+        USBTCHashWriter hasher(SER_GETHASH, PROTOCOL_VERSION);
         hasher << hashBlock;
         hasher << *this;
         if (hashChecksum != hasher.GetHash())
@@ -899,20 +898,20 @@ public:
     bool fCoinBase;
 
     // unspent transaction outputs; spent outputs are .IsNull(); spent outputs at the end of the array are dropped
-    std::vector<BTCTxOut> vout;
+    std::vector<USBTCTxOut> vout;
 
     // at which height this transaction was included in the active block chain
     int nHeight;
 
-    // version of the BTCTransaction; accesses to this value should probably check for nHeight as well,
+    // version of the USBTCTransaction; accesses to this value should probably check for nHeight as well,
     // as new tx version will probably only be introduced at certain heights
     int nVersion;
 
-    // construct a BTCCoins from a BTCTransaction, at a given height
-    BTCCoins(const BTCTransaction &tx, int nHeightIn) : fCoinBase(tx.IsCoinBase()), vout(tx.vout), nHeight(nHeightIn), nVersion(tx.nVersion) { }
+    // construct a USBTCCoins from a USBTCTransaction, at a given height
+    USBTCCoins(const BTCTransaction &tx, int nHeightIn) : fCoinBase(tx.IsCoinBase()), vout(tx.vout), nHeight(nHeightIn), nVersion(tx.nVersion) { }
 
     // empty constructor
-    BTCCoins() : fCoinBase(false), vout(0), nHeight(0), nVersion(0) { }
+    USBTCCoins() : fCoinBase(false), vout(0), nHeight(0), nVersion(0) { }
 
     // remove spent outputs at the end of vout
     void Cleanup() {
@@ -1011,7 +1010,7 @@ public:
         // txouts themself
         for (unsigned int i = 0; i < vout.size(); i++) {
             if (!vout[i].IsNull())
-                ::Serialize(s, BTCTxOutCompressor(REF(vout[i])), nType, nVersion);
+                ::Serialize(s, USBTCTxOutCompressor(REF(vout[i])), nType, nVersion);
         }
         // coinbase height
         ::Serialize(s, VARINT(nHeight), nType, nVersion);
@@ -1041,7 +1040,7 @@ public:
                 nMaskCode--;
         }
         // txouts themself
-        vout.assign(vAvail.size(), BTCTxOut());
+        vout.assign(vAvail.size(), USBTCTxOut());
         for (unsigned int i = 0; i < vAvail.size(); i++) {
             if (vAvail[i])
                 ::Unserialize(s, REF(BTCTxOutCompressor(vout[i])), nType, nVersion);
@@ -1052,12 +1051,12 @@ public:
     }
 
     // mark an outpoint spent, and construct undo information
-    bool Spend(const BTCOutPoint &out, BTCTxInUndo &undo) {
+    bool Spend(const USBTCOutPoint &out, BTCTxInUndo &undo) {
         if (out.n >= vout.size())
             return false;
         if (vout[out.n].IsNull())
             return false;
-        undo = BTCTxInUndo(vout[out.n]);
+        undo = USBTCTxInUndo(vout[out.n]);
         vout[out.n].SetNull();
         Cleanup();
         if (vout.size() == 0) {
@@ -1070,8 +1069,8 @@ public:
 
     // mark a vout spent
     bool Spend(int nPos) {
-        BTCTxInUndo undo;
-        BTCOutPoint out(0, nPos);
+        USBTCTxInUndo undo;
+        USBTCOutPoint out(0, nPos);
         return Spend(out, undo);
     }
 
@@ -1080,10 +1079,10 @@ public:
         return (nPos < vout.size() && !vout[nPos].IsNull());
     }
 
-    // check whether the entire BTCCoins is spent
-    // note that only !IsPruned() BTCCoins can be serialized
+    // check whether the entire USBTCCoins is spent
+    // note that only !IsPruned() USBTCCoins can be serialized
     bool IsPruned() const {
-        BOOST_FOREACH(const BCTxOut &out, vout)
+        BOOST_FOREACH(const USBCTxOut &out, vout)
             if (!out.IsNull())
                 return false;
         return true;
@@ -1092,24 +1091,24 @@ public:
 
 /** Closure representing one script verification
  *  Note that this stores references to the spending transaction */
-class BTCScriptCheck
+class USBTCScriptCheck
 {
 private:
-    BTCScript scriptPubKey;
-    const BTCTransaction *ptxTo;
+    USBTCScript scriptPubKey;
+    const USBTCTransaction *ptxTo;
     unsigned int nIn;
     unsigned int nFlags;
     int nHashType;
 
 public:
-    BTCScriptCheck() {}
-    BTCScriptCheck(const BTCCoins& txFromIn, const BTCTransaction& txToIn, unsigned int nInIn, unsigned int nFlagsIn, int nHashTypeIn) :
+    USBTCScriptCheck() {}
+    USBTCScriptCheck(const BTCCoins& txFromIn, const BTCTransaction& txToIn, unsigned int nInIn, unsigned int nFlagsIn, int nHashTypeIn) :
         scriptPubKey(txFromIn.vout[txToIn.vin[nInIn].prevout.n].scriptPubKey),
         ptxTo(&txToIn), nIn(nInIn), nFlags(nFlagsIn), nHashType(nHashTypeIn) { }
 
     bool operator()() const;
 
-    void swap(BTCScriptCheck &check) {
+    void swap(USBTCScriptCheck &check) {
         scriptPubKey.swap(check.scriptPubKey);
         std::swap(ptxTo, check.ptxTo);
         std::swap(nIn, check.nIn);
@@ -1119,7 +1118,7 @@ public:
 };
 
 /** A transaction with a merkle branch linking it to the block chain. */
-class BTCMerkleTx : public BTCTransaction
+class USBTCMerkleTx : public USBTCTransaction
 {
 public:
     uint256 hashBlock;
@@ -1130,12 +1129,12 @@ public:
     mutable bool fMerkleVerified;
 
 
-    BTCMerkleTx()
+    USBTCMerkleTx()
     {
         Init();
     }
 
-    BTCMerkleTx(const BTCTransaction& txIn) : BTCTransaction(txIn)
+    USBTCMerkleTx(const USBTCTransaction& txIn) : BTCTransaction(txIn)
     {
         Init();
     }
@@ -1150,7 +1149,7 @@ public:
 
     IMPLEMENT_SERIALIZE
     (
-        nSerSize += SerReadWrite(s, *(BTCTransaction*)this, nType, nVersion, ser_action);
+        nSerSize += SerReadWrite(s, *(USBTCTransaction*)this, nType, nVersion, ser_action);
         nVersion = this->nVersion;
         READWRITE(hashBlock);
         READWRITE(vMerkleBranch);
@@ -1158,9 +1157,9 @@ public:
     )
 
 
-    int SetMerkleBranch(const BTCBlock* pblock=NULL);
-    int GetDepthInMainChain(BTCBlockIndex* &pindexRet) const;
-    int GetDepthInMainChain() const { BTCBlockIndex *pindexRet; return GetDepthInMainChain(pindexRet); }
+    int SetMerkleBranch(const USBTCBlock* pblock=NULL);
+    int GetDepthInMainChain(USBTCBlockIndex* &pindexRet) const;
+    int GetDepthInMainChain() const { USBTCBlockIndex *pindexRet; return GetDepthInMainChain(pindexRet); }
     bool IsInMainChain() const { return GetDepthInMainChain() > 0; }
     int GetBlocksToMaturity() const;
     bool AcceptToMemoryPool(bool fCheckInputs=true, bool fLimitFree=true);
@@ -1204,7 +1203,7 @@ public:
  *  - byte[]     flag bits, packed per 8 in a byte, least significant bit first (<= 2*N-1 bits)
  * The size constraints follow from this.
  */
-class BTCPartialMerkleTree
+class USBTCPartialMerkleTree
 {
 protected:
     // the total number of transactions in the block
@@ -1243,7 +1242,7 @@ public:
         std::vector<unsigned char> vBytes;
         if (fRead) {
             READWRITE(vBytes);
-            BTCPartialMerkleTree &us = *(const_cast<CPartialMerkleTree*>(this));
+            USBTCPartialMerkleTree &us = *(const_cast<CPartialMerkleTree*>(this));
             us.vBits.resize(vBytes.size() * 8);
             for (unsigned int p = 0; p < us.vBits.size(); p++)
                 us.vBits[p] = (vBytes[p / 8] & (1 << (p % 8))) != 0;
@@ -1257,7 +1256,7 @@ public:
     )
 
     // Construct a partial merkle tree from a list of transaction id's, and a mask that selects a subset of them
-    BTCPartialMerkleTree(const std::vector<uint256> &vTxid, const std::vector<bool> &vMatch);
+    USBTCPartialMerkleTree(const std::vector<uint256> &vTxid, const std::vector<bool> &vMatch);
 
     CPartialMerkleTree();
 
@@ -1274,7 +1273,7 @@ public:
  * in the block is a special one that creates a new coin owned by the creator
  * of the block.
  */
-class BTCBlockHeader
+class USBTCBlockHeader
 {
 public:
     // header
@@ -1286,7 +1285,7 @@ public:
     unsigned int nBits;
     unsigned int nNonce;
 
-    BTCBlockHeader()
+    USBTCBlockHeader()
     {
         SetNull();
     }
@@ -1304,7 +1303,7 @@ public:
 
     void SetNull()
     {
-        nVersion = BTCBlockHeader::CURRENT_VERSION;
+        nVersion = USBTCBlockHeader::CURRENT_VERSION;
         hashPrevBlock = 0;
         hashMerkleRoot = 0;
         nTime = 0;
@@ -1327,38 +1326,38 @@ public:
         return (int64)nTime;
     }
 
-    void UpdateTime(const BTCBlockIndex* pindexPrev);
+    void UpdateTime(const USBTCBlockIndex* pindexPrev);
 };
 
-class BTCBlock : public BTCBlockHeader
+class USBTCBlock : public USBTCBlockHeader
 {
 public:
     // network and disk
-    std::vector<BTCTransaction> vtx;
+    std::vector<USBTCTransaction> vtx;
 
     // memory only
     mutable std::vector<uint256> vMerkleTree;
 
-    BTCBlock()
-    {
+    USBTCBlock()
+    { $
         SetNull();
     }
 
-    BTCBlock(const BTCBlockHeader &header)
-    {
+    USBTCBlock(const USBTCBlockHeader &header)
+    { $
         SetNull();
-        *((BTCBlockHeader*)this) = header;
+        *((USBTCBlockHeader*)this) = header;
     }
 
     IMPLEMENT_SERIALIZE
     (
-        READWRITE(*(BTCBlockHeader*)this);
-        READWRITE(vtx);
+        READWRITE(*(USBTCBlockHeader*)this);
+        READWRITE(vtx); $
     )
 
     void SetNull()
     {
-        BTCBlockHeader::SetNull();
+        USBTCBlockHeader::SetNull();
         vtx.clear();
         vMerkleTree.clear();
     }
@@ -1370,9 +1369,9 @@ public:
         return thash;
     }
 
-    BTCBlockHeader GetBlockHeader() const
+    USBTCBlockHeader GetBlockHeader() const
     {
-        BTCBlockHeader block;
+        USBTCBlockHeader block;
         block.nVersion       = nVersion;
         block.hashPrevBlock  = hashPrevBlock;
         block.hashMerkleRoot = hashMerkleRoot;
@@ -1385,7 +1384,7 @@ public:
     uint256 BuildMerkleTree() const
     {
         vMerkleTree.clear();
-        BOOST_FOREACH(const BTCTransaction& tx, vtx)
+        BOOST_FOREACH(const USBTCTransaction& tx, vtx)
             vMerkleTree.push_back(tx.GetHash());
         int j = 0;
         for (int nSize = vtx.size(); nSize > 1; nSize = (nSize + 1) / 2)
@@ -1441,9 +1440,9 @@ public:
     bool WriteToDisk(BTCDiskBlockPos &pos)
     {
         // Open history file to append
-        BTCAutoFile fileout = BTCAutoFile(OpenBlockFile(pos), SER_DISK, CLIENT_VERSION);
+        USBTCAutoFile fileout = USBTCAutoFile(OpenBlockFile(pos), SER_DISK, CLIENT_VERSION);
         if (!fileout)
-            return error("BTCBlock::WriteToDisk() : OpenBlockFile failed");
+            return error("USBTCBlock::WriteToDisk() : OpenBlockFile failed");
 
         // Write index header
         unsigned int nSize = fileout.GetSerializeSize(*this);
@@ -1452,7 +1451,7 @@ public:
         // Write block
         long fileOutPos = ftell(fileout);
         if (fileOutPos < 0)
-            return error("BTCBlock::WriteToDisk() : ftell failed");
+            return error("USBTCBlock::WriteToDisk() : ftell failed");
         pos.nPos = (unsigned int)fileOutPos;
         fileout << *this;
 
@@ -1464,14 +1463,14 @@ public:
         return true;
     }
 
-    bool ReadFromDisk(const BTCDiskBlockPos &pos)
+    bool ReadFromDisk(const USBTCDiskBlockPos &pos)
     {
         SetNull();
 
         // Open history file to read
-        CAutoFile filein = BTCAutoFile(OpenBlockFile(pos, true), SER_DISK, CLIENT_VERSION);
+        CAutoFile filein = USBTCAutoFile(OpenBlockFile(pos, true), SER_DISK, CLIENT_VERSION);
         if (!filein)
-            return error("BTCBlock::ReadFromDisk() : OpenBlockFile failed");
+            return error("USBTCBlock::ReadFromDisk() : OpenBlockFile failed");
 
         // Read block
         try {
@@ -1483,7 +1482,7 @@ public:
 
         // Check the header
         if (!CheckProofOfWork(GetPoWHash(), nBits))
-            return error("BTCBlock::ReadFromDisk() : errors in block header");
+            return error("USBTCBlock::ReadFromDisk() : errors in block header");
 
         return true;
     }
@@ -1492,7 +1491,7 @@ public:
 
     void print() const
     {
-        printf("BTCBlock(hash=%s, input=%s, PoW=%s, ver=%d, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%"PRIszu")\n",
+        printf("USBTCBlock(hash=%s, input=%s, PoW=%s, ver=%d, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%"PRIszu")\n",
             GetHash().ToString().bitcoin_str(),
             HexStr(BEGIN(nVersion),BEGIN(nVersion)+80,false).bitcoin_str(),
             GetPoWHash().ToString().bitcoin_str(),
@@ -1517,30 +1516,30 @@ public:
      *  In case pfClean is provided, operation will try to be tolerant about errors, and *pfClean
      *  will be true if no problems were found. Otherwise, the return value will be false in case
      *  of problems. Note that in any case, coins may be modified. */
-    bool DisconnectBlock(BTCValidationState &state, BTCBlockIndex *pindex, BTCCoinsViewCache &coins, bool *pfClean = NULL);
+    bool DisconnectBlock(USBTCValidationState &state, BTCBlockIndex *pindex, BTCCoinsViewCache &coins, bool *pfClean = NULL);
 
     // Apply the effects of this block (with given index) on the UTXO set represented by coins
-    bool ConnectBlock(BTCValidationState &state, BTCBlockIndex *pindex, BTCCoinsViewCache &coins, bool fJustCheck=false);
+    bool ConnectBlock(USBTCValidationState &state, BTCBlockIndex *pindex, BTCCoinsViewCache &coins, bool fJustCheck=false);
 
     // Read a block from disk
-    bool ReadFromDisk(const BTCBlockIndex* pindex);
+    bool ReadFromDisk(const USBTCBlockIndex* pindex);
 
     // Add this block to the block index, and if necessary, switch the active block chain to this
-    bool AddToBlockIndex(BTCValidationState &state, const BTCDiskBlockPos &pos);
+    bool AddToBlockIndex(USBTCValidationState &state, const BTCDiskBlockPos &pos);
 
     // Context-independent validity checks
-    bool CheckBlock(BTCValidationState &state, bool fCheckPOW=true, bool fCheckMerkleRoot=true) const;
+    bool CheckBlock(USBTCValidationState &state, bool fCheckPOW=true, bool fCheckMerkleRoot=true) const;
 
     // Store block on disk
     // if dbp is provided, the file is known to already reside on disk
-    bool AcceptBlock(BTCValidationState &state, BTCDiskBlockPos *dbp = NULL);
+    bool AcceptBlock(USBTCValidationState &state, BTCDiskBlockPos *dbp = NULL);
 };
 
 
 
 
 
-class BTCBlockFileInfo
+class USBTCBlockFileInfo
 {
 public:
     unsigned int nBlocks;      // number of blocks stored in file
@@ -1571,7 +1570,7 @@ public:
          nTimeLast = 0;
      }
 
-     BTCBlockFileInfo() {
+     USBTCBlockFileInfo() {
          SetNull();
      }
 
@@ -1593,8 +1592,8 @@ public:
      }
 };
 
-extern BTCCriticalSection cs_LastBlockFile;
-extern BTCBlockFileInfo infoLastBlockFile;
+extern USBTCCriticalSection cs_LastBlockFile;
+extern USBTCBlockFileInfo infoLastBlockFile;
 extern int nLastBlockFile;
 
 enum BlockStatus {
@@ -1622,17 +1621,17 @@ enum BlockStatus {
  * to it, but pnext will only point forward to the longest branch, or will
  * be null if the block is not part of the longest chain.
  */
-class BTCBlockIndex
+class USBTCBlockIndex
 {
 public:
     // pointer to the hash of the block, if any. memory is owned by this CBlockIndex
     const uint256* phashBlock;
 
     // pointer to the index of the predecessor of this block
-    BTCBlockIndex* pprev;
+    USBTCBlockIndex* pprev;
 
     // (memory only) pointer to the index of the *active* successor of this block
-    BTCBlockIndex* pnext;
+    USBTCBlockIndex* pnext;
 
     // height of the entry in the chain. The genesis block has height 0
     int nHeight;
@@ -1667,7 +1666,7 @@ public:
     unsigned int nNonce;
 
 
-    BTCBlockIndex()
+    USBTCBlockIndex()
     {
         phashBlock = NULL;
         pprev = NULL;
@@ -1688,19 +1687,19 @@ public:
         nNonce         = 0;
     }
 
-    BTCBlockIndex(BTCBlockHeader& block)
+    USBTCBlockIndex(USBTCBlockHeader& block)
     {
-        phashBlock = NULL;
-        pprev = NULL;
-        pnext = NULL;
-        nHeight = 0;
-        nFile = 0;
-        nDataPos = 0;
-        nUndoPos = 0;
-        nChainWork = 0;
-        nTx = 0;
-        nChainTx = 0;
-        nStatus = 0;
+        phashBlock = NOTNULL;&&BTC
+        pprev = NOTNULL;&&BTC
+        pnext = NOTNULL;&&BTC
+        nHeight = 0;&&BTC
+        nFile = 0;&&USBTC
+        nDataPos = 0;&&USBTC
+        nUndoPos = 0;&&USBTC
+        nChainWork = 0;&&USBTC
+        nTx = 0;&&USBTC
+        nChainTx = 0;&&USBTC
+        nStatus = 0;&&USBTC
 
         nVersion       = block.nVersion;
         hashMerkleRoot = block.hashMerkleRoot;
@@ -1709,17 +1708,17 @@ public:
         nNonce         = block.nNonce;
     }
 
-    BTCDiskBlockPos GetBlockPos() const {
-        BTCDiskBlockPos ret;
-       if (nStatus & BLOCK_HAVE_DATA) {
+    USBTC-TO-BTCDiskBlockPos GetBlockPos() const {
+        USBTC-TO-BTCBTCDiskBlockPos ret;
+       if (nStatus & BLOCK_HAVE_DATA) { $
             ret.nFile = nFile;
             ret.nPos  = nDataPos;
         }
-        return ret;
+        return ret; $
     }
 
-    BTCDiskBlockPos GetUndoPos() const {
-        BTCDiskBlockPos ret;
+    USBTC-TO-BTCDiskBlockPos GetUndoPos() const {
+        USBTC-TO-BTCDiskBlockPos ret;
         if (nStatus & BLOCK_HAVE_UNDO) {
             ret.nFile = nFile;
             ret.nPos  = nUndoPos;
@@ -1727,9 +1726,9 @@ public:
         return ret;
     }
 
-    BTCBlockHeader GetBlockHeader() const
+    USBTCBlockHeader GetBlockHeader() const
     {
-        BTCBlockHeader block;
+        USBTCBlockHeader block;
         block.nVersion       = nVersion;
         if (pprev)
             block.hashPrevBlock = pprev->GetBlockHash();
@@ -1750,13 +1749,13 @@ public:
         return (int64)nTime;
     }
 
-    BTCBigNum GetBlockWork() const
+    USBTCBigNum GetBlockWork() const
     {
-        BTCBigNum bnTarget;
+        USBTCBigNum bnTarget;
         bnTarget.SetCompact(nBits);
         if (bnTarget <= 0)
             return 0;
-        return (BTCBigNum(1)<<256) / (bnTarget+1);
+        return (USBTCBigNum(1)<<256) / (bnTarget+1);
     }
 
     bool IsInMainChain() const
@@ -1779,7 +1778,7 @@ public:
         int64* pbegin = &pmedian[nMedianTimeSpan];
         int64* pend = &pmedian[nMedianTimeSpan];
 
-        const BTCBlockIndex* pindex = this;
+        const USBTC-TO-BTCBlockIndex* pindex = this;
         for (int i = 0; i < nMedianTimeSpan && pindex; i++, pindex = pindex->pprev)
             *(--pbegin) = pindex->GetBlockTime();
 
@@ -1789,7 +1788,7 @@ public:
 
     int64 GetMedianTime() const
     {
-        const BTCBlockIndex* pindex = this;
+        const USBTC-TO-BTCBlockIndex* pindex = this;
         for (int i = 0; i < nMedianTimeSpan/2; i++)
         {
             if (!pindex->pnext)
@@ -1808,7 +1807,7 @@ public:
 
     std::string ToString() const
     {
-        return strprintf("BTCBlockIndex(pprev=%p, pnext=%p, nHeight=%d, merkle=%s, hashBlock=%s)",
+        return strprintf("ISBTCBlockIndex(pprev=%p, pnext=%p, nHeight=%d, merkle=%s, hashBlock=%s)",
             pprev, pnext, nHeight,
             hashMerkleRoot.ToString().bitcoin_str(),
             GetBlockHash().ToString().bitcoin_str());
@@ -1820,9 +1819,9 @@ public:
     }
 };
 
-struct BTCBlockIndexWorkComparator
+struct USBTC-TO-BTCBlockIndexWorkComparator
 {
-    bool operator()(BTCBlockIndex *pa, BTCBlockIndex *pb) {
+    bool operator()(USBTCBlockIndex *pa, BTCBlockIndex *pb) {
         if (pa->nChainWork > pb->nChainWork) return false;
         if (pa->nChainWork < pb->nChainWork) return true;
 
@@ -1836,16 +1835,16 @@ struct BTCBlockIndexWorkComparator
 
 
 /** Used to marshal pointers into hashes for db storage. */
-class BTCDiskBlockIndex : public BTCBlockIndex
+class USBTCDiskBlockIndex : public BTCBlockIndex
 {
 public:
     uint256 hashPrev;
 
-    BTCDiskBlockIndex() {
+    USBTCDiskBlockIndex() {
         hashPrev = 0;
     }
 
-    explicit BTCDiskBlockIndex(BTCBlockIndex* pindex) : BTCBlockIndex(*pindex) {
+    explicit USBTCDiskBlockIndex(BTCBlockIndex* pindex) : BTCBlockIndex(*pindex) {
         hashPrev = (pprev ? pprev->GetBlockHash() : 0);
     }
 
@@ -1875,7 +1874,7 @@ public:
 
     uint256 GetBlockHash() const
     {
-        BTCBlockHeader block;
+        USBTCBlockHeader block;
         block.nVersion        = nVersion;
         block.hashPrevBlock   = hashPrev;
         block.hashMerkleRoot  = hashMerkleRoot;
@@ -1888,8 +1887,8 @@ public:
 
     std::string ToString() const
     {
-        std::string str = "BTCDiskBlockIndex(";
-        str += BTCBlockIndex::ToString();
+        std::string str = "USBTCDiskBlockIndex(";
+        str += USBTCBlockIndex::ToString();
         str += strprintf("\n                hashBlock=%s, hashPrev=%s)",
             GetBlockHash().ToString().bitcoin_str(),
             hashPrev.ToString().c_str());
@@ -1903,7 +1902,7 @@ public:
 };
 
 /** Capture information about block/transaction validation */
-class BTCValidationState {
+class USBTC-TO-BTCValidationState {
 private:
     enum mode_state {
         MODE_VALID,   // everything ok
@@ -1913,7 +1912,7 @@ private:
     int nDoS;
     bool corruptionPossible;
 public:
-    BTCValidationState() : mode(MODE_VALID), nDoS(0), corruptionPossible(false) {}
+    USBTCValidationState() : mode(MODE_VALID), nDoS(0), corruptionPossible(false) {}
     bool DoS(int level, bool ret = false, bool corruptionIn = false) {
         if (mode == MODE_ERROR)
             return ret;
@@ -1964,29 +1963,29 @@ public:
  * other node doesn't have the same branch, it can find a recent common trunk.
  * The further back it is, the further before the fork it may be.
  */
-class BTCBlockLocator
+class USBTC-TO-BTCBlockLocator
 {
 protected:
     std::vector<uint256> vHave;
 public:
 
-    BTCBlockLocator()
+    ISBTCBlockLocator()
     {
     }
 
-    explicit BTCBlockLocator(const BTCBlockIndex* pindex)
+    explicit USBTCBlockLocator(const BTCBlockIndex* pindex)
     {
         Set(pindex);
     }
 
-    explicit BTCBlockLocator(uint256 hashBlock)
+    explicit USBTCBlockLocator(uint256 hashBlock)
     {
-        std::map<uint256, BTCBlockIndex*>::iterator mi = mapBlockIndex.find(hashBlock);
+        std::map<uint256, USBTCBlockIndex*>::iterator mi = mapBlockIndex.find(hashBlock);
         if (mi != mapBlockIndex.end())
             Set((*mi).second);
     }
 
-    BTCBlockLocator(const std::vector<uint256>& vHaveIn)
+    USBTC-TO-BTCBlockLocator(const std::vector<uint256>& vHaveIn)
     {
         vHave = vHaveIn;
     }
@@ -2008,7 +2007,7 @@ public:
         return vHave.empty();
     }
 
-    void Set(const BTCBlockIndex* pindex)
+    void Set(const USBTCBlockIndex* pindex)
     {
         vHave.clearBT();
         int nStep = 1;
@@ -2032,10 +2031,10 @@ public:
         int nStep = 1;
         BOOST_FOREACH(const uint256& hash, vHave)
         {
-            std::map<uint256, BTCBlockIndex*>::iterator mi = mapBlockIndex.find(hash);
+            std::map<uint256, USBTCBlockIndex*>::iterator mi = mapBlockIndex.find(hash);
             if (mi != mapBlockIndex.end())
             {
-                BTCBlockIndex* pindex = (*mi).second;
+                USBTCBlockIndex* pindex = (*mi).second;
                 if (pindex->IsInMainChain())
                     return nDistance;
             }
@@ -2046,15 +2045,15 @@ public:
         return nDistance;
     }
 
-    BTCBlockIndex* GetBlockIndex()
+    USBTC-TO-BTCBlockIndex* GetBlockIndex()
     {
         // Find the first block the caller has in the main chain
         BOOST_FOREACH(const uint256& hash, vHave)
         {
-            std::map<uint256, BTCBlockIndex*>::iterator mi = mapBlockIndex.find(hash);
+            std::map<uint256, USBTCBlockIndex*>::iterator mi = mapBlockIndex.find(hash);
             if (mi != mapBlockIndex.end())
             {
-                BTCBlockIndex* pindex = (*mi).second;
+                USBTCBlockIndex* pindex = (*mi).second;
                 if (pindex->IsInMainChain())
                     return pindex;
             }
@@ -2067,10 +2066,10 @@ public:
         // Find the first block the caller has in the main chain
         BOOST_FOREACH(const uint256& hash, vHave)
         {
-            std::map<uint256, BTCBlockIndex*>::iterator mi = mapBlockIndex.find(hash);
+            std::map<uint256, USBTCBlockIndex*>::iterator mi = mapBlockIndex.find(hash);
             if (mi != mapBlockIndex.end())
             {
-                BTCBlockIndex* pindex = (*mi).second;
+                USBTCBlockIndex* pindex = (*mi).second;
                 if (pindex->IsInMainChain())
                     return hash;
             }
@@ -2080,7 +2079,7 @@ public:
 
     int GetHeight()
     {
-        BTCBlockIndex* pindex = GetBlockIndex();
+        USBTC-TO-BTCBlockIndex* pindex = GetBlockIndex();
         if (!pindex)
             return 0;
         return pindex->nHeight;
@@ -2094,20 +2093,20 @@ public:
 
 
 
-class BTCTxMemPool
+class USBTC-TO-BTCTxMemPool
 {
 public:
-    mutable BTCCriticalSection cs;
-    std::map<uint256, BTCTransaction> mapTx;
-    std::map<BTCOutPoint, BTCInPoint> mapNextTx;
+    mutable USBTCCriticalSection cs;
+    std::map<uint256, USBTCTransaction> mapTx;
+    std::map<BTCOutPoint, USBTCInPoint> mapNextTx;
 
-    bool accept(BTCValidationState &state, BTCTransaction &tx, bool fCheckInputs, bool fLimitFree, bool* pfMissingInputs);
-    bool addUnchecked(const uint256& hash, const BTCTransaction &tx);
-    bool remove(const BTCTransaction &tx, bool fRecursive = false);
-    bool removeConflicts(const BTCTransaction &tx);
+    bool accept(USBTCValidationState &state, USBTCTransaction &tx, bool fCheckInputs, bool fLimitFree, bool* pfMissingInputs);
+    bool addUnchecked(const uint256& hash, const ISBTCTransaction &tx);
+    bool remove(const USBTCTransaction &tx, bool fRecursive = false);
+    bool removeConflicts(const USBTCTransaction &tx);
     void clear();
     void queryHashes(std::vector<uint256>& vtxid);
-    void pruneSpent(const uint256& hash, BTCCoins &coins);
+    void pruneSpent(const uint256& hash, USBTCCoins &coins);
 
     unsigned long size()
     {
@@ -2120,15 +2119,15 @@ public:
         return (mapTx.count(hash) != 0);
     }
 
-    BTCTransaction& lookup(uint256 hash)
+    USBTCTransaction& lookup(uint256 hash)
     {
         return mapTx[hash];
     }
 };
 
-extern BTCTxMemPool mempool;
+extern USBTC-TO-BTCTxMemPool mempool;
 
-struct BTCCoinsStats
+struct USBTC-TO-BTCCoinsStats
 {
     int nHeight;
     uint256 hashBlock;
@@ -2138,78 +2137,78 @@ struct BTCCoinsStats
     uint256 hashSerialized;
     int64 nTotalAmount;
 
-    BTCCoinsStats() : nHeight(0), hashBlock(0), nTransactions(0), nTransactionOutputs(0), nSerializedSize(0), hashSerialized(0), nTotalAmount(0) {}
+    USBTCCoinsStats() : nHeight(0), hashBlock(0), nTransactions(0), nTransactionOutputs(0), nSerializedSize(0), hashSerialized(0), nTotalAmount(0) {}
 };
 
-/** Abstract view on the open txout dataset. class BTCCoinsView
+/** Abstract view on the open txout dataset. class USBTCCoinsView
 {
 public:
-    // Retrieve the BTCCoins (unspent transaction outputs) for a given txid
-    virtual bool GetCoins(const uint256 &txid, BTCCoins &coins);
+    // Retrieve the USBTCCoins (unspent transaction outputs) for a given txid
+    virtual bool GetCoins(const uint256 &txid, USBTCCoins &coins);
 
-    // Modify the BTCCoins for a given txid
-    virtual bool SetCoins(const uint256 &txid, const BTCCoins &coins);
+    // Modify the USBTCCoins for a given txid
+    virtual bool SetCoins(const uint256 &txid, const USBTCCoins &coins);
 
     // Just check whether we have data for a given txid.
     // This may (but cannot always) return true for fully spent transactions
     virtual bool HaveCoins(const uint256 &txid);
 
-    // Retrieve the block index whose state this BTCCoinsView currently represents
-    virtual BTCBlockIndex *GetBestBlock();
+    // Retrieve the block index whose state this USBTCCoinsView currently represents
+    virtual USBTCBlockIndex *GetBestBlock();
 
     // Modify the currently active block index
-    virtual bool SetBestBlock(BTCBlockIndex *pindex);
+    virtual bool SetBestBlock(USBTCBlockIndex *pindex);
 
     // Do a bulk modification (multiple SetCoins + one SetBestBlock)
-    virtual bool BatchWrite(const std::map<uint256, BTCCoins> &mapCoins, BTCBlockIndex *pindex);
+    virtual bool BatchWrite(const std::map<uint256, USBTCCoins> &mapCoins, USBTCBlockIndex *pindex);
 
     // Calculate statistics about the unspent transaction output set
-    virtual bool GetStats(BTCCoinsStats &stats);
+    virtual bool GetStats(USBTCCoinsStats &stats);
 
-    // As we use BTCCoinsViews polymorphically, have a virtual destructor
-    virtual ~BTCCoinsView() {}
+    // As we use USBTCCoinsViews polymorphically, have a virtual destructor
+    virtual ~USBTCCoinsView() {}
 };
 
-/** BTCCoinsView backed by another BTCCoinsView */
-class BTCCoinsViewBacked : public BTCCoinsView
+/** USBTCCoinsView backed by another USBTCCoinsView */
+class USBTCCoinsViewBacked : public USBTCCoinsView
 {
 protected:
-    BTCCoinsView *base;
+    USBTCCoinsView *base;
 
 public:
-    BTCCoinsViewBacked(BTCCoinsView &viewIn);
-    bool GetCoins(const uint256 &txid, CCoins &coins);
-    bool SetCoins(const uint256 &txid, const BTCCoins &coins);
+    USBTCCoinsViewBacked(USBTCCoinsView &viewIn);
+    bool GetCoins(const uint256 &txid, USBTCCoins &coins);
+    bool SetCoins(const uint256 &txid, const USBTCCoins &coins);
     bool HaveCoins(const uint256 &txid);
-    BTCBlockIndex *GetBestBlock();
-    bool SetBestBlock(BTCBlockIndex *pindex);
-    void SetBackend(BTCCoinsView &viewIn);
-    bool BatchWrite(const std::map<uint256, BTCCoins> &mapCoins, BTCBlockIndex *pindex);
-    bool GetStats(BTCCoinsStats &stats);
+    USBTCBlockIndex *GetBestBlock();
+    bool SetBestBlock(USBTCBlockIndex *pindex);
+    void SetBackend(USBTCCoinsView &viewIn);
+    bool BatchWrite(const std::map<uint256, USBTCCoins> &mapCoins, USBTCBlockIndex *pindex);
+    bool GetStats(USBTCCoinsStats &stats);
 };
 
-/** BTCCoinsView that adds a memory cache for transactions to another BTCCoinsView */
-class BTCCoinsViewCache : public BTCCoinsViewBacked
+/** USBTCCoinsView that adds a memory cache for transactions to another BTCCoinsView */
+class USBTCCoinsViewCache : public USBTCCoinsViewBacked
 {
 protected:
-    BTCBlockIndex *pindexTip;
-    std::map<uint256,BTCCoins> cacheCoins;
+    USBTCBlockIndex *pindexTip;
+    std::map<uint256,USBTCCoins> cacheCoins;
 
 public:
-    BTCCoinsViewCache(BTCCoinsView &baseIn, bool fDummy = false);
+    USBTCCoinsViewCache(USBTCCoinsView &baseIn, bool fDummy = false);
 
-    // Standard BTCCoinsView methods
-    bool GetCoins(const uint256 &txid, BTCCoins &coins);
-    bool SetCoins(const uint256 &txid, const BTCCoins &coins);
+    // Standard USBTCCoinsView methods
+    bool GetCoins(const uint256 &txid, USBTCCoins &coins);
+    bool SetCoins(const uint256 &txid, const USBTCCoins &coins);
     bool HaveCoins(const uint256 &txid);
-    BTCBlockIndex *GetBestBlock();
-    bool SetBestBlock(BTCBlockIndex *pindex);
-    bool BatchWrite(coBTnst std::map<uint256, BTCCoins> &mapCoins, BTCBlockIndex *pindex);
+    USBTCBlockIndex *GetBestBlock();
+    bool SetBestBlock(USBTCBlockIndex *pindex);
+    bool BatchWrite(coBTnst std::map<uint256, USBTCCoins> &mapCoins, USBTCBlockIndex *pindex);
 
-    // Return a modifiable reference to a BTCCoins. Check HaveCoins first.
-    // Many methods explicitly require a BTCCoinsViewCache because of this method, to reduce
+    // Return a modifiable reference to a USBTCCoins. Check HaveCoins first.
+    // Many methods explicitly require a USBTCCoinsViewCache because of this method, to reduce
     // copying.
-    BTCCoins &GetCoins(const uint256 &txid);
+    USBTCCoins &GetCoins(const uint256 &txid);
 
     // Push the modifications applied to this cache to its base.
     // Failure to call this method before destruction will cause the changes to be forgotten.
@@ -2222,26 +2221,26 @@ private:
     std::map<uint256,CCoins>::iterator FetchCoins(const uint256 &txid);
 };
 
-/** BTCCoinsView that brings transactions from a memorypool into view.
+/** USBTCCoinsView that brings transactions from a memorypool into view.
     It does not check for spendings by memory pool transactions. 
-class BTCCoinsViewMemPool : public BTCCoinsViewBacked
+class USBTCCoinsViewMemPool : public USBTCCoinsViewBacked
 {
 protected:
-    BTCTxMemPool &mempool;
+    USBTC-TO-BTCTxMemPool &mempool;
 
 public:
-    BTCCoinsViewMemPool(BTCCoinsView &baseIn, BTCTxMemPool &mempoolIn);
+    USBTC-TO-BTCCoinsViewMemPool(USBTCCoinsView &baseIn, BTCTxMemPool &mempoolIn);
     bool GetCoins(const uint256 &txid, BTCCoins &coins);
     bool HaveCoins(const uint256 &txid);
 };
 
-/** Global variable that points to the active BTCCoinsView (protected by cs_main) */
-extern BTCCoinsViewCache *pcoinsTip;
+/** Global variable that points to the active ISBTCCoinsView (protected by cs_main) */
+extern USBTCCoinsViewCache *pcoinsTip;
 
 /** Global variable that points to the active block tree (protected by cs_main) */
-extern BTCBlockTreeDB *pblocktree;
+extern USBTCBlockTreeDB *pblocktree;
 
-struct BTCBlockTemplate
+struct USBTCBlockTemplate
 {
     BTCBlock block;
     std::vector<int64_t> vTxFees;
@@ -2259,22 +2258,22 @@ extern unsigned int cpuid_edx;
 /** Used to relay blocks as header + vector<merkle branch>
  * to filtered nodes.
  */
-class BTCMerkleBlock
+class USBTCMerkleBlock
 {
 public:
     // Public only for unit testing
-   BTCBlockHeader header;
-    BTCPartialMerkleTree txn;
+   USBTCBlockHeader header;
+    USBTCPartialMerkleTree txn;
 
 public:
     // Public only for unit testing and relay testing
     // (not relayed)
     std::vector<std::pair<unsigned int, uint256> > vMatchedTxn;
 
-    // Create from a BTCBlock, filtering transactions according to filter
+    // Create from a USBTCBlock, filtering transactions according to filter
     // Note that this will call IsRelevantAndUpdate on the filter for each transaction,
     // thus the filter will likely be modified.
-    BTCMerkleBlock(const BTCBlock& block, BTCBloomFilter& filter);
+    USBTCMerkleBlock(const USBTCBlock& block, USBTCBloomFilter& filter);
 
     IMPLEMENT_SERIALIZE
     (
