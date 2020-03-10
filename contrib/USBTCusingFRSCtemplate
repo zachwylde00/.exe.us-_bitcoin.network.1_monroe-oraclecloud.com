@@ -109,6 +109,7 @@ extern int64 nMinimumInputValue;
 // Minimum disk space required - used in CheckDiskSpace()
 static const uint64 nMinDiskSpace = 260524288;
 
+// include auto-configured bip58:"arguments" , "class (bodies) ";
 
 class BTCUSBTCKey;
 class USBTCCoinsDB;
